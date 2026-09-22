@@ -1,0 +1,2912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#126b45">
+<meta name="description" content="Meu Mercado - lista de compras e controle de orçamento">
+<title>Meu Mercado</title>
+
+<style>
+:root{
+  --bg:#f4f7f5;
+  --card:#ffffff;
+  --text:#18201c;
+  --muted:#69756f;
+  --primary:#126b45;
+  --primary-dark:#0d5638;
+  --border:#e1e8e4;
+  --danger:#d92d20;
+  --danger-bg:#fff0ef;
+  --success:#198754;
+  --success-bg:#eefaf3;
+  --whatsapp:#25d366;
+  --shadow:0 5px 18px rgba(0,0,0,.07);
+  --font-scale:1;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:calc(16px * var(--font-scale));
+  min-height:100vh;
+  padding-bottom:85px;
+  transition:.2s;
+}
+
+body.dark{
+  --bg:#101513;
+  --card:#18201d;
+  --text:#f2f6f3;
+  --muted:#aab7b0;
+  --border:#29352f;
+  --danger-bg:#351817;
+  --success-bg:#13271c;
+  --shadow:0 5px 18px rgba(0,0,0,.25);
+}
+
+body.font-small{
+  --font-scale:.90;
+}
+
+body.font-normal{
+  --font-scale:1;
+}
+
+body.font-large{
+  --font-scale:1.12;
+}
+
+body.font-xlarge{
+  --font-scale:1.25;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:1.35rem;
+  font-weight:800;
+  color:var(--primary);
+}
+
+.header-actions{
+  display:flex;
+  gap:8px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  font-weight:700;
+}
+
+main{
+  width:100%;
+  max-width:700px;
+  margin:auto;
+  padding:16px;
+}
+
+.tab{
+  display:none;
+}
+
+.tab.active{
+  display:block;
+}
+
+.hero-title{
+  margin-bottom:14px;
+}
+
+.hero-title h1{
+  font-size:1.55rem;
+  margin-bottom:4px;
+}
+
+.hero-title p{
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.summary-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:13px;
+  box-shadow:var(--shadow);
+}
+
+.summary-card span{
+  display:block;
+  color:var(--muted);
+  font-size:.78rem;
+  margin-bottom:6px;
+}
+
+.summary-card strong{
+  display:block;
+  font-size:1.05rem;
+}
+
+.money-danger{
+  color:var(--danger)!important;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow);
+  margin-bottom:14px;
+}
+
+.card-title{
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.budget-row{
+  display:flex;
+  gap:8px;
+}
+
+input,
+select{
+  width:100%;
+  border:1px solid var(--border);
+  background:var(--bg);
+  color:var(--text);
+  border-radius:12px;
+  padding:12px;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:var(--primary);
+}
+
+.primary-btn{
+  border:0;
+  border-radius:12px;
+  padding:12px 15px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:700;
+}
+
+.primary-btn:active{
+  transform:scale(.98);
+}
+
+.secondary-btn{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:11px 14px;
+  background:var(--card);
+  color:var(--text);
+  font-weight:700;
+}
+
+.secondary-btn:active{
+  transform:scale(.98);
+}
+
+.danger-btn{
+  border:0;
+  border-radius:12px;
+  padding:11px 14px;
+  background:var(--danger);
+  color:#fff;
+  font-weight:700;
+}
+
+.clear-budget{
+  width:100%;
+  margin-top:9px;
+}
+
+.over-budget{
+  background:var(--danger-bg);
+  border:1px solid #efb3af;
+  color:var(--danger);
+  padding:12px;
+  border-radius:13px;
+  font-weight:700;
+  margin-top:10px;
+}
+
+.whatsapp-btn{
+  width:100%;
+  margin-top:12px;
+  background:var(--whatsapp);
+  color:#fff;
+  border:0;
+  border-radius:14px;
+  padding:14px;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  box-shadow:0 4px 10px rgba(37,211,102,.18);
+}
+
+.whatsapp-btn:active{
+  transform:scale(.98);
+}
+
+.list-empty{
+  text-align:center;
+  color:var(--muted);
+  padding:25px 10px;
+  line-height:1.5;
+}
+
+.list-item,
+.product-item,
+.history-item{
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:13px;
+  margin-bottom:10px;
+  background:var(--card);
+}
+
+.item-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.item-name{
+  font-weight:800;
+}
+
+.item-category{
+  color:var(--muted);
+  font-size:.78rem;
+  margin-top:3px;
+}
+
+.item-price{
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.item-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:12px;
+  gap:8px;
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.qty button{
+  width:31px;
+  height:31px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:var(--bg);
+  color:var(--text);
+  font-weight:800;
+}
+
+.qty strong{
+  min-width:22px;
+  text-align:center;
+}
+
+.item-actions{
+  display:flex;
+  gap:7px;
+}
+
+.small-btn{
+  border:1px solid var(--border);
+  background:var(--bg);
+  color:var(--text);
+  border-radius:9px;
+  padding:7px 9px;
+  font-size:.8rem;
+}
+
+.search-box{
+  margin-bottom:10px;
+}
+
+.product-item{
+  display:block;
+}
+
+.product-info{
+  min-width:0;
+}
+
+.product-price{
+  margin-top:5px;
+  color:var(--primary);
+  font-weight:800;
+}
+
+.product-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:11px;
+}
+
+.product-actions button{
+  width:100%;
+}
+
+.new-product{
+  margin-top:15px;
+  border-top:1px solid var(--border);
+  padding-top:15px;
+}
+
+.new-product-grid{
+  display:grid;
+  gap:8px;
+}
+
+.history-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.clear-history{
+  font-size:.78rem;
+  color:var(--danger);
+  background:transparent;
+  border:1px solid #e3a8a4;
+  border-radius:9px;
+  padding:7px 9px;
+}
+
+.history-total{
+  font-weight:800;
+  color:var(--primary);
+  margin-top:5px;
+}
+
+.history-date{
+  color:var(--muted);
+  font-size:.8rem;
+}
+
+.history-actions{
+  margin-top:10px;
+}
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:72px;
+  background:var(--card);
+  border-top:1px solid var(--border);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  z-index:30;
+}
+
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-weight:700;
+  font-size:.78rem;
+}
+
+.nav-btn.active{
+  color:var(--primary);
+}
+
+.nav-icon{
+  display:block;
+  font-size:1.15rem;
+  margin-bottom:3px;
+}
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal-bg.show{
+  display:flex;
+}
+
+.modal{
+  width:100%;
+  max-width:500px;
+  max-height:88vh;
+  overflow:auto;
+  background:var(--card);
+  border-radius:20px;
+  padding:18px;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.close-btn{
+  border:0;
+  background:var(--bg);
+  color:var(--text);
+  width:35px;
+  height:35px;
+  border-radius:10px;
+  font-weight:800;
+}
+
+.modal-actions{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+}
+
+.modal-actions button{
+  flex:1;
+}
+
+.access-options{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+}
+
+.access-option{
+  border:1px solid var(--border);
+  background:var(--bg);
+  color:var(--text);
+  padding:11px 5px;
+  border-radius:11px;
+  font-weight:700;
+}
+
+.access-option.active{
+  background:var(--primary);
+  color:#fff;
+  border-color:var(--primary);
+}
+
+.purchase-detail{
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:11px;
+  margin-bottom:8px;
+}
+
+.purchase-detail-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.purchase-total{
+  border-top:1px solid var(--border);
+  margin-top:12px;
+  padding-top:12px;
+  font-size:1.05rem;
+  font-weight:800;
+}
+
+.confirm-text{
+  color:var(--muted);
+  line-height:1.5;
+}
+
+@media(max-width:430px){
+
+  .summary{
+    gap:7px;
+  }
+
+  .summary-card{
+    padding:10px;
+  }
+
+  .summary-card strong{
+    font-size:.92rem;
+  }
+
+  .budget-row{
+    flex-direction:column;
+  }
+
+  .item-bottom{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .item-actions{
+    width:100%;
+  }
+
+  .item-actions button{
+    flex:1;
+  }
+
+}
+</style>
+</head>
+
+<body class="font-normal">
+
+<header>
+
+  <div class="logo">
+    Meu Mercado
+  </div>
+
+  <div class="header-actions">
+
+    <button
+      class="icon-btn"
+      onclick="toggleDark()"
+      aria-label="Alternar tema"
+    >
+      ☾
+    </button>
+
+    <button
+      class="icon-btn"
+      onclick="openAccessibility()"
+      aria-label="Acessibilidade"
+    >
+      A
+    </button>
+
+  </div>
+
+</header>
+
+
+<main>
+
+<!-- =========================
+     MINHA LISTA
+========================= -->
+
+<section id="listaTab" class="tab active">
+
+  <div class="hero-title">
+
+    <h1>Minha Lista</h1>
+
+    <p>
+      Controle suas compras e seu orçamento.
+    </p>
+
+  </div>
+
+
+  <div class="summary">
+
+    <div class="summary-card">
+
+      <span>Total</span>
+
+      <strong id="totalValue">
+        R$ 0,00
+      </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <span>Orçamento</span>
+
+      <strong id="budgetValue">
+        R$ 0,00
+      </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <span>Restante</span>
+
+      <strong id="remainingValue">
+        R$ 0,00
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      Meu orçamento
+    </div>
+
+
+    <div class="budget-row">
+
+      <input
+        type="number"
+        id="budgetInput"
+        placeholder="Quanto você pode gastar?"
+        step="0.01"
+        min="0"
+      >
+
+      <button
+        class="primary-btn"
+        onclick="saveBudget()"
+      >
+        Salvar
+      </button>
+
+    </div>
+
+
+    <button
+      class="secondary-btn clear-budget"
+      onclick="clearBudget()"
+    >
+      Limpar orçamento
+    </button>
+
+
+    <div id="overBudgetMessage"></div>
+
+
+    <button
+      class="whatsapp-btn"
+      onclick="sendToWhatsApp()"
+    >
+      <span>WhatsApp</span>
+      <span>Enviar minha lista</span>
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      Produtos da lista
+    </div>
+
+
+    <div id="shoppingList"></div>
+
+
+    <button
+      id="finishButton"
+      class="primary-btn"
+      style="width:100%;margin-top:10px;"
+      onclick="finishPurchase()"
+    >
+      Finalizar compra
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     PRODUTOS
+========================= -->
+
+<section id="produtosTab" class="tab">
+
+  <div class="hero-title">
+
+    <h1>Produtos</h1>
+
+    <p>
+      Encontre produtos ou cadastre os seus.
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <input
+      id="searchInput"
+      class="search-box"
+      type="search"
+      placeholder="Pesquisar produto..."
+      oninput="renderProducts()"
+    >
+
+
+    <select
+      id="categoryFilter"
+      onchange="renderProducts()"
+    >
+
+      <option value="">
+        Todas as categorias
+      </option>
+
+      <option>Alimentos</option>
+      <option>Bebidas</option>
+      <option>Carnes</option>
+      <option>Frutas</option>
+      <option>Verduras e legumes</option>
+      <option>Laticínios</option>
+      <option>Padaria</option>
+      <option>Congelados</option>
+      <option>Higiene pessoal</option>
+      <option>Limpeza</option>
+      <option>Casa</option>
+      <option>Bebês</option>
+      <option>Pet</option>
+      <option>Outros</option>
+
+    </select>
+
+
+    <div
+      id="productsList"
+      style="margin-top:14px;"
+    ></div>
+
+
+    <div class="new-product">
+
+      <div class="card-title">
+        Adicionar novo produto
+      </div>
+
+
+      <div class="new-product-grid">
+
+        <input
+          id="newProductName"
+          placeholder="Nome do produto"
+        >
+
+
+        <input
+          id="newProductPrice"
+          type="number"
+          placeholder="Preço"
+          min="0"
+          step="0.01"
+        >
+
+
+        <select id="newProductCategory">
+
+          <option value="">
+            Escolha a categoria
+          </option>
+
+          <option>Alimentos</option>
+          <option>Bebidas</option>
+          <option>Carnes</option>
+          <option>Frutas</option>
+          <option>Verduras e legumes</option>
+          <option>Laticínios</option>
+          <option>Padaria</option>
+          <option>Congelados</option>
+          <option>Higiene pessoal</option>
+          <option>Limpeza</option>
+          <option>Casa</option>
+          <option>Bebês</option>
+          <option>Pet</option>
+          <option>Outros</option>
+
+        </select>
+
+
+        <button
+          class="primary-btn"
+          onclick="addNewProduct()"
+        >
+          Adicionar produto
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     HISTÓRICO
+========================= -->
+
+<section id="historicoTab" class="tab">
+
+  <div class="hero-title">
+
+    <div class="history-header">
+
+      <div>
+
+        <h1>Histórico</h1>
+
+        <p>
+          Suas compras finalizadas.
+        </p>
+
+      </div>
+
+
+      <button
+        class="clear-history"
+        onclick="openClearHistory()"
+      >
+        Limpar histórico
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div id="historyList"></div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     NAVEGAÇÃO
+========================= -->
+
+<nav class="bottom-nav">
+
+  <button
+    class="nav-btn active"
+    id="navLista"
+    onclick="showTab('lista')"
+  >
+
+    <span class="nav-icon">☰</span>
+
+    Minha Lista
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    id="navProdutos"
+    onclick="showTab('produtos')"
+  >
+
+    <span class="nav-icon">▦</span>
+
+    Produtos
+
+  </button>
+
+
+  <button
+    class="nav-btn"
+    id="navHistorico"
+    onclick="showTab('historico')"
+  >
+
+    <span class="nav-icon">◷</span>
+
+    Histórico
+
+  </button>
+
+</nav>
+
+
+<!-- =========================
+     MODAL ACESSIBILIDADE
+========================= -->
+
+<div
+  class="modal-bg"
+  id="accessModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2>
+        Tamanho do texto
+      </h2>
+
+      <button
+        class="close-btn"
+        onclick="closeModal('accessModal')"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <p
+      style="color:var(--muted);margin-bottom:14px;"
+    >
+      Escolha o tamanho que fica melhor para você.
+    </p>
+
+
+    <div class="access-options">
+
+      <button
+        class="access-option"
+        data-size="small"
+        onclick="setFontSize('small')"
+      >
+        A−
+      </button>
+
+
+      <button
+        class="access-option"
+        data-size="normal"
+        onclick="setFontSize('normal')"
+      >
+        A
+      </button>
+
+
+      <button
+        class="access-option"
+        data-size="large"
+        onclick="setFontSize('large')"
+      >
+        A+
+      </button>
+
+
+      <button
+        class="access-option"
+        data-size="xlarge"
+        onclick="setFontSize('xlarge')"
+      >
+        A++
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MODAL ALTERAR PREÇO
+========================= -->
+
+<div
+  class="modal-bg"
+  id="priceModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2>
+        Alterar preço
+      </h2>
+
+      <button
+        class="close-btn"
+        onclick="closeModal('priceModal')"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <p
+      style="
+        color:var(--muted);
+        margin-bottom:12px;
+      "
+    >
+      Altere o preço deste produto para o valor encontrado no mercado.
+    </p>
+
+
+    <input
+      type="number"
+      id="newPriceInput"
+      min="0"
+      step="0.01"
+      placeholder="Novo preço"
+    >
+
+
+    <div class="modal-actions">
+
+      <button
+        class="secondary-btn"
+        onclick="closeModal('priceModal')"
+      >
+        Cancelar
+      </button>
+
+
+      <button
+        class="primary-btn"
+        onclick="saveProductPrice()"
+      >
+        Salvar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MODAL HISTÓRICO
+========================= -->
+
+<div
+  class="modal-bg"
+  id="historyModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2>
+        Minha compra
+      </h2>
+
+      <button
+        class="close-btn"
+        onclick="closeModal('historyModal')"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div id="historyDetails"></div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MODAL LIMPAR HISTÓRICO
+========================= -->
+
+<div
+  class="modal-bg"
+  id="clearHistoryModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2>
+        Limpar histórico?
+      </h2>
+
+      <button
+        class="close-btn"
+        onclick="closeModal('clearHistoryModal')"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <p class="confirm-text">
+
+      Todas as compras salvas no histórico
+      serão apagadas.
+
+      Sua lista atual, seus produtos e seu
+      orçamento continuarão intactos.
+
+    </p>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="secondary-btn"
+        onclick="closeModal('clearHistoryModal')"
+      >
+        Cancelar
+      </button>
+
+
+      <button
+        class="danger-btn"
+        onclick="clearHistory()"
+      >
+        Limpar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   PRODUTOS PADRÃO
+========================= */
+
+const defaultProducts = [
+
+  {
+    id:1,
+    name:"Arroz 5kg",
+    price:28.90,
+    category:"Alimentos"
+  },
+
+  {
+    id:2,
+    name:"Feijão 1kg",
+    price:8.50,
+    category:"Alimentos"
+  },
+
+  {
+    id:3,
+    name:"Macarrão 500g",
+    price:5.50,
+    category:"Alimentos"
+  },
+
+  {
+    id:4,
+    name:"Açúcar 1kg",
+    price:4.80,
+    category:"Alimentos"
+  },
+
+  {
+    id:5,
+    name:"Café 500g",
+    price:18.90,
+    category:"Alimentos"
+  },
+
+  {
+    id:6,
+    name:"Óleo de soja 900ml",
+    price:7.20,
+    category:"Alimentos"
+  },
+
+  {
+    id:7,
+    name:"Leite 1L",
+    price:5.90,
+    category:"Laticínios"
+  },
+
+  {
+    id:8,
+    name:"Manteiga 200g",
+    price:11.90,
+    category:"Laticínios"
+  },
+
+  {
+    id:9,
+    name:"Pão de forma",
+    price:9.50,
+    category:"Padaria"
+  },
+
+  {
+    id:10,
+    name:"Frango 1kg",
+    price:12.90,
+    category:"Carnes"
+  },
+
+  {
+    id:11,
+    name:"Carne bovina 1kg",
+    price:32.90,
+    category:"Carnes"
+  },
+
+  {
+    id:12,
+    name:"Banana 1kg",
+    price:6.90,
+    category:"Frutas"
+  },
+
+  {
+    id:13,
+    name:"Maçã 1kg",
+    price:9.90,
+    category:"Frutas"
+  },
+
+  {
+    id:14,
+    name:"Tomate 1kg",
+    price:7.90,
+    category:"Verduras e legumes"
+  },
+
+  {
+    id:15,
+    name:"Batata 1kg",
+    price:6.50,
+    category:"Verduras e legumes"
+  },
+
+  {
+    id:16,
+    name:"Refrigerante 2L",
+    price:8.90,
+    category:"Bebidas"
+  },
+
+  {
+    id:17,
+    name:"Água 1,5L",
+    price:3.50,
+    category:"Bebidas"
+  },
+
+  {
+    id:18,
+    name:"Sabonete",
+    price:2.90,
+    category:"Higiene pessoal"
+  },
+
+  {
+    id:19,
+    name:"Shampoo",
+    price:12.90,
+    category:"Higiene pessoal"
+  },
+
+  {
+    id:20,
+    name:"Pasta de dente",
+    price:5.90,
+    category:"Higiene pessoal"
+  },
+
+  {
+    id:21,
+    name:"Detergente",
+    price:2.50,
+    category:"Limpeza"
+  },
+
+  {
+    id:22,
+    name:"Sabão em pó",
+    price:12.90,
+    category:"Limpeza"
+  },
+
+  {
+    id:23,
+    name:"Papel higiênico",
+    price:18.90,
+    category:"Higiene pessoal"
+  },
+
+  {
+    id:24,
+    name:"Ração para cachorro",
+    price:18.90,
+    category:"Pet"
+  }
+
+];
+
+
+let products =
+  JSON.parse(
+    localStorage.getItem("meuMercadoProducts")
+  ) || defaultProducts;
+
+
+let shoppingList =
+  JSON.parse(
+    localStorage.getItem("meuMercadoList")
+  ) || [];
+
+
+let history =
+  JSON.parse(
+    localStorage.getItem("meuMercadoHistory")
+  ) || [];
+
+
+let budget =
+  Number(
+    localStorage.getItem("meuMercadoBudget")
+  ) || 0;
+
+
+/*
+  Agora o ID de edição pertence ao PRODUTO
+  do catálogo e não ao item da lista.
+*/
+let editingProductId = null;
+
+
+/* =========================
+   ARMAZENAMENTO
+========================= */
+
+function saveData(){
+
+  localStorage.setItem(
+    "meuMercadoProducts",
+    JSON.stringify(products)
+  );
+
+  localStorage.setItem(
+    "meuMercadoList",
+    JSON.stringify(shoppingList)
+  );
+
+  localStorage.setItem(
+    "meuMercadoHistory",
+    JSON.stringify(history)
+  );
+
+  localStorage.setItem(
+    "meuMercadoBudget",
+    String(budget)
+  );
+
+}
+
+
+/* =========================
+   FUNÇÕES BÁSICAS
+========================= */
+
+function money(value){
+
+  return Number(value).toLocaleString(
+    "pt-BR",
+    {
+      style:"currency",
+      currency:"BRL"
+    }
+  );
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function getTotal(){
+
+  return shoppingList.reduce(
+    function(total,item){
+
+      return total +
+        (
+          Number(item.price) *
+          Number(item.quantity)
+        );
+
+    },
+    0
+  );
+
+}
+
+
+/* =========================
+   ABAS
+========================= */
+
+function showTab(tab){
+
+  document.querySelectorAll(".tab")
+    .forEach(function(element){
+
+      element.classList.remove("active");
+
+    });
+
+
+  document.querySelectorAll(".nav-btn")
+    .forEach(function(element){
+
+      element.classList.remove("active");
+
+    });
+
+
+  if(tab==="lista"){
+
+    document.getElementById("listaTab")
+      .classList.add("active");
+
+    document.getElementById("navLista")
+      .classList.add("active");
+
+  }
+
+
+  if(tab==="produtos"){
+
+    document.getElementById("produtosTab")
+      .classList.add("active");
+
+    document.getElementById("navProdutos")
+      .classList.add("active");
+
+    renderProducts();
+
+  }
+
+
+  if(tab==="historico"){
+
+    document.getElementById("historicoTab")
+      .classList.add("active");
+
+    document.getElementById("navHistorico")
+      .classList.add("active");
+
+    renderHistory();
+
+  }
+
+}
+
+
+/* =========================
+   RESUMO
+========================= */
+
+function renderSummary(){
+
+  const total = getTotal();
+
+  const remaining =
+    budget - total;
+
+
+  document.getElementById("totalValue")
+    .textContent = money(total);
+
+
+  document.getElementById("budgetValue")
+    .textContent = money(budget);
+
+
+  const remainingElement =
+    document.getElementById(
+      "remainingValue"
+    );
+
+
+  remainingElement.textContent =
+    money(remaining);
+
+
+  remainingElement.classList.toggle(
+    "money-danger",
+    remaining < 0
+  );
+
+
+  const overBudget =
+    document.getElementById(
+      "overBudgetMessage"
+    );
+
+
+  if(
+    budget > 0 &&
+    total > budget
+  ){
+
+    overBudget.innerHTML = `
+      <div class="over-budget">
+        Você ultrapassou seu orçamento em
+        ${money(total-budget)}.
+      </div>
+    `;
+
+  }else{
+
+    overBudget.innerHTML = "";
+
+  }
+
+}
+
+
+/* =========================
+   MINHA LISTA
+========================= */
+
+function renderList(){
+
+  const container =
+    document.getElementById(
+      "shoppingList"
+    );
+
+
+  if(shoppingList.length===0){
+
+    container.innerHTML = `
+      <div class="list-empty">
+        Sua lista está vazia.<br>
+        Vá em <strong>Produtos</strong>
+        para adicionar itens.
+      </div>
+    `;
+
+
+    document.getElementById(
+      "finishButton"
+    ).style.display = "none";
+
+
+    renderSummary();
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "finishButton"
+  ).style.display = "block";
+
+
+  container.innerHTML =
+    shoppingList.map(function(item){
+
+      const subtotal =
+        Number(item.price) *
+        Number(item.quantity);
+
+
+      return `
+
+        <div class="list-item">
+
+          <div class="item-top">
+
+            <div>
+
+              <div class="item-name">
+                ${escapeHTML(item.name)}
+              </div>
+
+              <div class="item-category">
+                ${escapeHTML(item.category)}
+              </div>
+
+            </div>
+
+
+            <div class="item-price">
+              ${money(subtotal)}
+            </div>
+
+          </div>
+
+
+          <div class="item-bottom">
+
+            <div class="qty">
+
+              <button
+                onclick="changeQuantity(${item.id},-1)"
+              >
+                −
+              </button>
+
+
+              <strong>
+                ${item.quantity}
+              </strong>
+
+
+              <button
+                onclick="changeQuantity(${item.id},1)"
+              >
+                +
+              </button>
+
+            </div>
+
+
+            <!--
+              ALTERAR PREÇO FOI REMOVIDO DAQUI.
+              Agora a lista fica mais limpa.
+            -->
+
+            <div class="item-actions">
+
+              <button
+                class="small-btn"
+                onclick="removeItem(${item.id})"
+              >
+                Remover
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+
+  renderSummary();
+
+}
+
+
+/* =========================
+   ADICIONAR À LISTA
+========================= */
+
+function addToList(id){
+
+  const product =
+    products.find(function(item){
+
+      return item.id===id;
+
+    });
+
+
+  if(!product){
+
+    return;
+
+  }
+
+
+  const existing =
+    shoppingList.find(function(item){
+
+      return item.id===id;
+
+    });
+
+
+  if(existing){
+
+    existing.quantity++;
+
+  }else{
+
+    shoppingList.push({
+
+      id:product.id,
+
+      name:product.name,
+
+      price:Number(product.price),
+
+      category:product.category,
+
+      quantity:1
+
+    });
+
+  }
+
+
+  saveData();
+
+  renderList();
+
+}
+
+
+/* =========================
+   QUANTIDADE
+========================= */
+
+function changeQuantity(id,change){
+
+  const item =
+    shoppingList.find(function(element){
+
+      return element.id===id;
+
+    });
+
+
+  if(!item){
+
+    return;
+
+  }
+
+
+  item.quantity += change;
+
+
+  if(item.quantity<=0){
+
+    shoppingList =
+      shoppingList.filter(function(element){
+
+        return element.id!==id;
+
+      });
+
+  }
+
+
+  saveData();
+
+  renderList();
+
+}
+
+
+/* =========================
+   REMOVER ITEM
+========================= */
+
+function removeItem(id){
+
+  shoppingList =
+    shoppingList.filter(function(item){
+
+      return item.id!==id;
+
+    });
+
+
+  saveData();
+
+  renderList();
+
+}
+
+
+/* =========================
+   PRODUTOS
+========================= */
+
+function renderProducts(){
+
+  const search =
+    document.getElementById(
+      "searchInput"
+    ).value
+     .toLowerCase()
+     .trim();
+
+
+  const category =
+    document.getElementById(
+      "categoryFilter"
+    ).value;
+
+
+  const filtered =
+    products.filter(function(product){
+
+      const matchesSearch =
+        product.name
+          .toLowerCase()
+          .includes(search);
+
+
+      const matchesCategory =
+        !category ||
+        product.category===category;
+
+
+      return (
+        matchesSearch &&
+        matchesCategory
+      );
+
+    });
+
+
+  const container =
+    document.getElementById(
+      "productsList"
+    );
+
+
+  if(filtered.length===0){
+
+    container.innerHTML = `
+      <div class="list-empty">
+        Nenhum produto encontrado.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    filtered.map(function(product){
+
+      return `
+
+        <div class="product-item">
+
+          <div class="product-info">
+
+            <div class="item-name">
+              ${escapeHTML(product.name)}
+            </div>
+
+            <div class="item-category">
+              ${escapeHTML(product.category)}
+            </div>
+
+            <div class="product-price">
+              ${money(product.price)}
+            </div>
+
+          </div>
+
+
+          <div class="product-actions">
+
+            <button
+              class="secondary-btn"
+              onclick="editProductPrice(${product.id})"
+            >
+              Alterar preço
+            </button>
+
+
+            <button
+              class="primary-btn"
+              onclick="addToList(${product.id})"
+            >
+              Adicionar
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   ALTERAR PREÇO DO PRODUTO
+========================= */
+
+function editProductPrice(id){
+
+  const product =
+    products.find(function(item){
+
+      return item.id===id;
+
+    });
+
+
+  if(!product){
+
+    return;
+
+  }
+
+
+  editingProductId = id;
+
+
+  document.getElementById(
+    "newPriceInput"
+  ).value =
+    Number(product.price).toFixed(2);
+
+
+  document.getElementById(
+    "priceModal"
+  ).classList.add("show");
+
+}
+
+
+function saveProductPrice(){
+
+  const value =
+    Number(
+      document.getElementById(
+        "newPriceInput"
+      ).value
+    );
+
+
+  if(
+    !Number.isFinite(value) ||
+    value<0
+  ){
+
+    return;
+
+  }
+
+
+  const product =
+    products.find(function(item){
+
+      return item.id===editingProductId;
+
+    });
+
+
+  if(!product){
+
+    return;
+
+  }
+
+
+  /*
+    O preço é alterado no catálogo.
+    Assim, quando o produto for adicionado
+    novamente à lista, já entra com o novo preço.
+  */
+
+  product.price = value;
+
+
+  saveData();
+
+  closeModal("priceModal");
+
+  renderProducts();
+
+}
+
+
+/* =========================
+   NOVO PRODUTO
+========================= */
+
+function addNewProduct(){
+
+  const name =
+    document.getElementById(
+      "newProductName"
+    ).value.trim();
+
+
+  const price =
+    Number(
+      document.getElementById(
+        "newProductPrice"
+      ).value
+    );
+
+
+  const category =
+    document.getElementById(
+      "newProductCategory"
+    ).value;
+
+
+  if(
+    !name ||
+    !Number.isFinite(price) ||
+    price<0 ||
+    !category
+  ){
+
+    return;
+
+  }
+
+
+  products.push({
+
+    id:Date.now(),
+
+    name:name,
+
+    price:price,
+
+    category:category
+
+  });
+
+
+  saveData();
+
+
+  document.getElementById(
+    "newProductName"
+  ).value = "";
+
+
+  document.getElementById(
+    "newProductPrice"
+  ).value = "";
+
+
+  document.getElementById(
+    "newProductCategory"
+  ).value = "";
+
+
+  renderProducts();
+
+}
+
+
+/* =========================
+   ORÇAMENTO
+========================= */
+
+function saveBudget(){
+
+  const value =
+    Number(
+      document.getElementById(
+        "budgetInput"
+      ).value
+    );
+
+
+  if(
+    !Number.isFinite(value) ||
+    value<0
+  ){
+
+    return;
+
+  }
+
+
+  budget = value;
+
+
+  saveData();
+
+  renderSummary();
+
+}
+
+
+function clearBudget(){
+
+  budget = 0;
+
+
+  document.getElementById(
+    "budgetInput"
+  ).value = "";
+
+
+  saveData();
+
+  renderSummary();
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function sendToWhatsApp(){
+
+  if(
+    !Array.isArray(shoppingList) ||
+    shoppingList.length===0
+  ){
+
+    return;
+
+  }
+
+
+  const total =
+    getTotal();
+
+
+  const date =
+    new Date().toLocaleDateString(
+      "pt-BR"
+    );
+
+
+  let message = "";
+
+
+  message +=
+    "🛒 *MEU MERCADO*\n";
+
+  message +=
+    "━━━━━━━━━━━━━━━━━━\n";
+
+  message +=
+    "📋 *LISTA DE COMPRAS*\n";
+
+  message +=
+    "📅 " + date + "\n";
+
+  message +=
+    "━━━━━━━━━━━━━━━━━━\n\n";
+
+
+  shoppingList.forEach(
+    function(item,index){
+
+      const subtotal =
+        Number(item.price) *
+        Number(item.quantity);
+
+
+      message +=
+        "*" +
+        (index+1) +
+        ". " +
+        item.name +
+        "*\n";
+
+
+      message +=
+        "Quantidade: " +
+        item.quantity +
+        "\n";
+
+
+      message +=
+        "Preço: " +
+        money(item.price) +
+        "\n";
+
+
+      message +=
+        "Subtotal: " +
+        money(subtotal) +
+        "\n\n";
+
+    }
+  );
+
+
+  message +=
+    "━━━━━━━━━━━━━━━━━━\n";
+
+
+  message +=
+    "💰 *RESUMO DA COMPRA*\n";
+
+
+  message +=
+    "🛍️ Total: *" +
+    money(total) +
+    "*\n";
+
+
+  if(budget>0){
+
+    message +=
+      "💳 Orçamento: *" +
+      money(budget) +
+      "*\n";
+
+
+    const remaining =
+      budget-total;
+
+
+    if(remaining>=0){
+
+      message +=
+        "✅ Restante: *" +
+        money(remaining) +
+        "*\n";
+
+    }else{
+
+      message +=
+        "⚠️ Ultrapassou: *" +
+        money(Math.abs(remaining)) +
+        "*\n";
+
+    }
+
+  }
+
+
+  message +=
+    "━━━━━━━━━━━━━━━━━━\n";
+
+
+  message +=
+    "🛒 *Meu Mercado*";
+
+
+  const url =
+    "https://wa.me/?text=" +
+    encodeURIComponent(message);
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =========================
+   FINALIZAR COMPRA
+========================= */
+
+function finishPurchase(){
+
+  if(
+    !Array.isArray(shoppingList) ||
+    shoppingList.length===0
+  ){
+
+    return;
+
+  }
+
+
+  const purchase = {
+
+    id:Date.now(),
+
+    date:new Date()
+      .toLocaleString("pt-BR"),
+
+    total:getTotal(),
+
+    budget:budget,
+
+    items:
+      shoppingList.map(function(item){
+
+        return {
+
+          id:item.id,
+
+          name:item.name,
+
+          price:Number(item.price),
+
+          category:item.category,
+
+          quantity:Number(item.quantity)
+
+        };
+
+      })
+
+  };
+
+
+  history.unshift(purchase);
+
+
+  shoppingList = [];
+
+
+  saveData();
+
+  renderList();
+
+  renderHistory();
+
+}
+
+
+/* =========================
+   HISTÓRICO
+========================= */
+
+function renderHistory(){
+
+  const container =
+    document.getElementById(
+      "historyList"
+    );
+
+
+  if(history.length===0){
+
+    container.innerHTML = `
+
+      <div class="card">
+
+        <div class="list-empty">
+
+          Nenhuma compra finalizada ainda.
+
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    history.map(
+      function(purchase,index){
+
+        return `
+
+          <div class="history-item">
+
+            <div class="item-top">
+
+              <div>
+
+                <div class="item-name">
+                  Compra #${history.length-index}
+                </div>
+
+                <div class="history-date">
+                  ${escapeHTML(purchase.date)}
+                </div>
+
+              </div>
+
+
+              <div class="history-total">
+                ${money(purchase.total)}
+              </div>
+
+            </div>
+
+
+            <div
+              style="
+                margin-top:8px;
+                color:var(--muted);
+              "
+            >
+
+              ${purchase.items.length}
+
+              ${
+                purchase.items.length===1
+                ? "produto"
+                : "produtos"
+              }
+
+            </div>
+
+
+            <div class="history-actions">
+
+              <button
+                class="secondary-btn"
+                style="width:100%;"
+                onclick="viewHistory(${index})"
+              >
+                Ver minha lista
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+function viewHistory(index){
+
+  const purchase =
+    history[index];
+
+
+  if(!purchase){
+
+    return;
+
+  }
+
+
+  const container =
+    document.getElementById(
+      "historyDetails"
+    );
+
+
+  let html = "";
+
+
+  html += `
+
+    <div
+      style="
+        color:var(--muted);
+        margin-bottom:12px;
+      "
+    >
+      ${escapeHTML(purchase.date)}
+    </div>
+
+  `;
+
+
+  purchase.items.forEach(
+    function(item){
+
+      const subtotal =
+        Number(item.price) *
+        Number(item.quantity);
+
+
+      html += `
+
+        <div class="purchase-detail">
+
+          <div class="purchase-detail-row">
+
+            <strong>
+              ${escapeHTML(item.name)}
+            </strong>
+
+            <strong>
+              ${money(subtotal)}
+            </strong>
+
+          </div>
+
+
+          <div
+            style="
+              color:var(--muted);
+              font-size:.85rem;
+              margin-top:5px;
+            "
+          >
+
+            ${item.quantity}
+            ×
+            ${money(item.price)}
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  html += `
+
+    <div class="purchase-total">
+
+      <div class="purchase-detail-row">
+
+        <span>
+          Total
+        </span>
+
+        <span>
+          ${money(purchase.total)}
+        </span>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  if(purchase.budget>0){
+
+    const difference =
+      purchase.budget -
+      purchase.total;
+
+
+    html += `
+
+      <div
+        style="
+          margin-top:10px;
+          color:var(--muted);
+        "
+      >
+
+        Orçamento:
+        ${money(purchase.budget)}
+
+      </div>
+
+    `;
+
+
+    if(difference>=0){
+
+      html += `
+
+        <div
+          style="
+            margin-top:5px;
+            color:var(--primary);
+            font-weight:700;
+          "
+        >
+
+          Restante:
+          ${money(difference)}
+
+        </div>
+
+      `;
+
+    }else{
+
+      html += `
+
+        <div
+          style="
+            margin-top:5px;
+            color:var(--danger);
+            font-weight:700;
+          "
+        >
+
+          Ultrapassou:
+          ${money(Math.abs(difference))}
+
+        </div>
+
+      `;
+
+    }
+
+  }
+
+
+  container.innerHTML = html;
+
+
+  document.getElementById(
+    "historyModal"
+  ).classList.add("show");
+
+}
+
+
+/* =========================
+   LIMPAR HISTÓRICO
+========================= */
+
+function openClearHistory(){
+
+  if(
+    !Array.isArray(history) ||
+    history.length===0
+  ){
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "clearHistoryModal"
+  ).classList.add("show");
+
+}
+
+
+function clearHistory(){
+
+  history = [];
+
+
+  saveData();
+
+
+  closeModal(
+    "clearHistoryModal"
+  );
+
+
+  renderHistory();
+
+}
+
+
+/* =========================
+   TEMA
+========================= */
+
+function toggleDark(){
+
+  document.body.classList.toggle(
+    "dark"
+  );
+
+
+  localStorage.setItem(
+    "meuMercadoDark",
+    document.body.classList.contains("dark")
+      ? "true"
+      : "false"
+  );
+
+}
+
+
+/* =========================
+   ACESSIBILIDADE
+========================= */
+
+function openAccessibility(){
+
+  document.getElementById(
+    "accessModal"
+  ).classList.add("show");
+
+}
+
+
+function setFontSize(size){
+
+  document.body.classList.remove(
+    "font-small",
+    "font-normal",
+    "font-large",
+    "font-xlarge"
+  );
+
+
+  document.body.classList.add(
+    "font-" + size
+  );
+
+
+  localStorage.setItem(
+    "meuMercadoFontSize",
+    size
+  );
+
+
+  document.querySelectorAll(
+    ".access-option"
+  ).forEach(
+    function(button){
+
+      button.classList.toggle(
+        "active",
+        button.dataset.size===size
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   MODAIS
+========================= */
+
+function closeModal(id){
+
+  const modal =
+    document.getElementById(id);
+
+
+  if(modal){
+
+    modal.classList.remove("show");
+
+  }
+
+}
+
+
+document.querySelectorAll(
+  ".modal-bg"
+).forEach(
+  function(modal){
+
+    modal.addEventListener(
+      "click",
+      function(event){
+
+        if(event.target===modal){
+
+          modal.classList.remove(
+            "show"
+          );
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+function initialize(){
+
+  const dark =
+    localStorage.getItem(
+      "meuMercadoDark"
+    );
+
+
+  if(dark==="true"){
+
+    document.body.classList.add(
+      "dark"
+    );
+
+  }
+
+
+  const savedFont =
+    localStorage.getItem(
+      "meuMercadoFontSize"
+    ) || "normal";
+
+
+  setFontSize(savedFont);
+
+
+  if(budget>0){
+
+    document.getElementById(
+      "budgetInput"
+    ).value =
+      budget;
+
+  }
+
+
+  renderList();
+
+  renderProducts();
+
+  renderHistory();
+
+}
+
+
+initialize();
+
+</script>
+
+</body>
+</html>
