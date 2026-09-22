@@ -3,73 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#126b45">
-<meta name="description" content="Meu Mercado - lista de compras e controle de orçamento">
+<meta name="theme-color" content="#0b6b4f">
 <title>Meu Mercado</title>
 
 <style>
 :root{
   --bg:#f4f7f5;
   --card:#ffffff;
-  --text:#18201c;
-  --muted:#69756f;
-  --primary:#126b45;
-  --primary-dark:#0d5638;
-  --border:#e1e8e4;
+  --text:#17231e;
+  --muted:#718078;
+  --primary:#0b6b4f;
+  --primary-dark:#07513c;
+  --border:#dfe8e3;
   --danger:#d92d20;
   --danger-bg:#fff0ef;
-  --success:#198754;
-  --success-bg:#eefaf3;
-  --whatsapp:#25d366;
+  --success:#16834e;
   --shadow:0 5px 18px rgba(0,0,0,.07);
-  --font-scale:1;
+  --radius:16px;
+  --fontScale:1;
 }
 
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
 }
 
 html{
-  scroll-behavior:smooth;
+  font-size:calc(16px * var(--fontScale));
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
   background:var(--bg);
   color:var(--text);
-  font-size:calc(16px * var(--font-scale));
-  min-height:100vh;
-  padding-bottom:85px;
-  transition:.2s;
+  padding-bottom:90px;
+  transition:background .2s,color .2s;
 }
 
 body.dark{
-  --bg:#101513;
-  --card:#18201d;
-  --text:#f2f6f3;
-  --muted:#aab7b0;
-  --border:#29352f;
-  --danger-bg:#351817;
-  --success-bg:#13271c;
+  --bg:#101613;
+  --card:#18211d;
+  --text:#f0f5f2;
+  --muted:#a5b2ab;
+  --primary:#22a875;
+  --primary-dark:#17875e;
+  --border:#2a3831;
+  --danger:#ff6b61;
+  --danger-bg:#321b19;
+  --success:#35c987;
   --shadow:0 5px 18px rgba(0,0,0,.25);
-}
-
-body.font-small{
-  --font-scale:.90;
-}
-
-body.font-normal{
-  --font-scale:1;
-}
-
-body.font-large{
-  --font-scale:1.12;
-}
-
-body.font-xlarge{
-  --font-scale:1.25;
 }
 
 button,
@@ -82,20 +64,20 @@ button{
   cursor:pointer;
 }
 
-header{
+.header{
   position:sticky;
   top:0;
   z-index:20;
   background:var(--card);
   border-bottom:1px solid var(--border);
-  padding:15px;
+  padding:15px 16px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
 }
 
 .logo{
-  font-size:1.35rem;
+  font-size:1.25rem;
   font-weight:800;
   color:var(--primary);
 }
@@ -108,43 +90,35 @@ header{
 .icon-btn{
   width:40px;
   height:40px;
-  border-radius:12px;
   border:1px solid var(--border);
-  background:var(--card);
+  background:var(--bg);
   color:var(--text);
+  border-radius:12px;
   font-weight:700;
 }
 
-main{
+.container{
   width:100%;
-  max-width:700px;
+  max-width:720px;
   margin:auto;
   padding:16px;
 }
 
-.tab{
+.page{
   display:none;
 }
 
-.tab.active{
+.page.active{
   display:block;
 }
 
-.hero-title{
-  margin-bottom:14px;
+.page-title{
+  font-size:1.35rem;
+  margin:4px 0 15px;
+  font-weight:800;
 }
 
-.hero-title h1{
-  font-size:1.55rem;
-  margin-bottom:4px;
-}
-
-.hero-title p{
-  color:var(--muted);
-  font-size:.9rem;
-}
-
-.summary{
+.summary-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:10px;
@@ -154,39 +128,40 @@ main{
 .summary-card{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:13px;
+  border-radius:var(--radius);
+  padding:13px 10px;
   box-shadow:var(--shadow);
+  min-width:0;
 }
 
-.summary-card span{
-  display:block;
+.summary-label{
   color:var(--muted);
   font-size:.78rem;
   margin-bottom:6px;
 }
 
-.summary-card strong{
-  display:block;
-  font-size:1.05rem;
+.summary-value{
+  font-size:1.02rem;
+  font-weight:800;
+  word-break:break-word;
 }
 
-.money-danger{
-  color:var(--danger)!important;
+.summary-value.danger{
+  color:var(--danger);
 }
 
-.card{
+.budget-box{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:18px;
-  padding:16px;
-  box-shadow:var(--shadow);
+  border-radius:var(--radius);
+  padding:15px;
   margin-bottom:14px;
+  box-shadow:var(--shadow);
 }
 
-.card-title{
+.budget-title{
   font-weight:800;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .budget-row{
@@ -210,107 +185,79 @@ select:focus{
   border-color:var(--primary);
 }
 
-.primary-btn{
-  border:0;
-  border-radius:12px;
-  padding:12px 15px;
-  background:var(--primary);
-  color:#fff;
-  font-weight:700;
+button:focus-visible{
+  outline:3px solid rgba(34,168,117,.25);
+  outline-offset:2px;
 }
 
-.primary-btn:active{
-  transform:scale(.98);
-}
-
-.secondary-btn{
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:11px 14px;
-  background:var(--card);
-  color:var(--text);
-  font-weight:700;
-}
-
-.secondary-btn:active{
-  transform:scale(.98);
-}
-
+.primary-btn,
+.secondary-btn,
 .danger-btn{
   border:0;
   border-radius:12px;
-  padding:11px 14px;
-  background:var(--danger);
-  color:#fff;
+  padding:12px 15px;
   font-weight:700;
 }
 
-.clear-budget{
-  width:100%;
-  margin-top:9px;
+.primary-btn{
+  background:var(--primary);
+  color:white;
 }
 
-.over-budget{
+.primary-btn:hover{
+  background:var(--primary-dark);
+}
+
+.secondary-btn{
+  background:var(--bg);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+
+.danger-btn{
   background:var(--danger-bg);
-  border:1px solid #efb3af;
   color:var(--danger);
-  padding:12px;
-  border-radius:13px;
-  font-weight:700;
+  border:1px solid rgba(217,45,32,.15);
+}
+
+.full-btn{
+  width:100%;
   margin-top:10px;
 }
 
-.whatsapp-btn{
-  width:100%;
-  margin-top:12px;
-  background:var(--whatsapp);
-  color:#fff;
-  border:0;
+.overspend{
+  display:none;
+  background:var(--danger-bg);
+  color:var(--danger);
   border-radius:14px;
-  padding:14px;
-  font-weight:800;
+  padding:12px;
+  margin-bottom:14px;
+  font-weight:700;
+}
+
+.list{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  box-shadow:0 4px 10px rgba(37,211,102,.18);
+  flex-direction:column;
+  gap:10px;
 }
 
-.whatsapp-btn:active{
-  transform:scale(.98);
-}
-
-.list-empty{
-  text-align:center;
-  color:var(--muted);
-  padding:25px 10px;
-  line-height:1.5;
-}
-
-.list-item,
-.product-item,
-.history-item{
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:13px;
-  margin-bottom:10px;
+.item-card{
   background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow:var(--shadow);
 }
 
 .item-top{
   display:flex;
   justify-content:space-between;
-  gap:10px;
+  gap:12px;
 }
 
 .item-name{
   font-weight:800;
-}
-
-.item-category{
-  color:var(--muted);
-  font-size:.78rem;
-  margin-top:3px;
+  line-height:1.25;
 }
 
 .item-price{
@@ -318,119 +265,159 @@ select:focus{
   white-space:nowrap;
 }
 
+.item-meta{
+  color:var(--muted);
+  font-size:.84rem;
+  margin-top:5px;
+}
+
 .item-bottom{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   margin-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.quantity{
+  display:flex;
+  align-items:center;
   gap:8px;
 }
 
-.qty{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.qty button{
-  width:31px;
-  height:31px;
-  border-radius:9px;
+.qty-btn{
+  width:36px;
+  height:36px;
   border:1px solid var(--border);
   background:var(--bg);
   color:var(--text);
+  border-radius:10px;
   font-weight:800;
 }
 
-.qty strong{
-  min-width:22px;
+.qty-number{
+  min-width:25px;
   text-align:center;
+  font-weight:800;
 }
 
-.item-actions{
-  display:flex;
-  gap:7px;
-}
-
-.small-btn{
-  border:1px solid var(--border);
-  background:var(--bg);
-  color:var(--text);
-  border-radius:9px;
-  padding:7px 9px;
-  font-size:.8rem;
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:30px 10px;
 }
 
 .search-box{
-  margin-bottom:10px;
-}
-
-.product-item{
-  display:block;
-}
-
-.product-info{
-  min-width:0;
-}
-
-.product-price{
-  margin-top:5px;
-  color:var(--primary);
-  font-weight:800;
-}
-
-.product-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:11px;
-}
-
-.product-actions button{
-  width:100%;
-}
-
-.new-product{
-  margin-top:15px;
-  border-top:1px solid var(--border);
-  padding-top:15px;
-}
-
-.new-product-grid{
-  display:grid;
-  gap:8px;
-}
-
-.history-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
   margin-bottom:12px;
 }
 
-.clear-history{
-  font-size:.78rem;
-  color:var(--danger);
-  background:transparent;
-  border:1px solid #e3a8a4;
-  border-radius:9px;
-  padding:7px 9px;
+.filters{
+  display:flex;
+  gap:8px;
+  margin-bottom:14px;
 }
 
-.history-total{
+.products-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.product-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:15px;
+  box-shadow:var(--shadow);
+}
+
+.product-info{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.product-name{
   font-weight:800;
-  color:var(--primary);
-  margin-top:5px;
+}
+
+.product-category{
+  color:var(--muted);
+  font-size:.8rem;
+  margin-top:4px;
+}
+
+.product-price{
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.product-action{
+  margin-top:12px;
+}
+
+.product-action button{
+  width:100%;
+}
+
+.add-product-box{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:15px;
+  margin-top:16px;
+  box-shadow:var(--shadow);
+}
+
+.form-title{
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.form-grid{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.history-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.history-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:15px;
+  box-shadow:var(--shadow);
+}
+
+.history-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
 }
 
 .history-date{
   color:var(--muted);
-  font-size:.8rem;
+  font-size:.82rem;
+}
+
+.history-total{
+  font-weight:800;
+}
+
+.history-info{
+  color:var(--muted);
+  margin-top:6px;
+  font-size:.88rem;
 }
 
 .history-actions{
-  margin-top:10px;
+  margin-top:12px;
 }
 
 .bottom-nav{
@@ -438,12 +425,12 @@ select:focus{
   bottom:0;
   left:0;
   right:0;
+  z-index:30;
   height:72px;
   background:var(--card);
   border-top:1px solid var(--border);
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  z-index:30;
 }
 
 .nav-btn{
@@ -460,120 +447,143 @@ select:focus{
 
 .nav-icon{
   display:block;
-  font-size:1.15rem;
-  margin-bottom:3px;
+  font-size:1.3rem;
+  margin-bottom:2px;
 }
 
-.modal-bg{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-}
 
-.modal-bg.show{
-  display:flex;
-}
+/* =========================
+   MODAIS - ABERTURA SUAVE
+========================= */
 
 .modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,0);
+  visibility:hidden;
+  opacity:0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding:15px;
+  transition:
+    opacity .22s ease,
+    background .22s ease,
+    visibility 0s linear .22s;
+}
+
+.modal.show{
+  visibility:visible;
+  opacity:1;
+  background:rgba(0,0,0,.55);
+  transition:
+    opacity .22s ease,
+    background .22s ease,
+    visibility 0s linear 0s;
+}
+
+.modal-box{
   width:100%;
-  max-width:500px;
-  max-height:88vh;
+  max-width:520px;
+  max-height:90vh;
   overflow:auto;
   background:var(--card);
-  border-radius:20px;
-  padding:18px;
-}
-
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:14px;
-}
-
-.close-btn{
-  border:0;
-  background:var(--bg);
   color:var(--text);
-  width:35px;
-  height:35px;
-  border-radius:10px;
-  font-weight:800;
+  border-radius:22px 22px 15px 15px;
+  padding:18px;
+
+  transform:translateY(35px);
+  opacity:0;
+
+  transition:
+    transform .28s cubic-bezier(.22,1,.36,1),
+    opacity .22s ease;
 }
 
-.modal-actions{
-  display:flex;
-  gap:8px;
+.modal.show .modal-box{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.modal-title{
+  font-size:1.15rem;
+  font-weight:800;
+  margin-bottom:5px;
+}
+
+.modal-subtitle{
+  color:var(--muted);
+  font-size:.86rem;
+  margin-bottom:15px;
+}
+
+.modal-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
   margin-top:14px;
 }
 
-.modal-actions button{
-  flex:1;
-}
-
-.access-options{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-}
-
-.access-option{
+.price-area{
   border:1px solid var(--border);
+  border-radius:15px;
+  padding:13px;
   background:var(--bg);
-  color:var(--text);
-  padding:11px 5px;
-  border-radius:11px;
-  font-weight:700;
 }
 
-.access-option.active{
-  background:var(--primary);
-  color:#fff;
-  border-color:var(--primary);
-}
-
-.purchase-detail{
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:11px;
-  margin-bottom:8px;
-}
-
-.purchase-detail-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.purchase-total{
-  border-top:1px solid var(--border);
-  margin-top:12px;
-  padding-top:12px;
-  font-size:1.05rem;
-  font-weight:800;
-}
-
-.confirm-text{
+.price-label{
   color:var(--muted);
-  line-height:1.5;
+  font-size:.8rem;
+  margin-bottom:6px;
 }
 
-@media(max-width:430px){
+.price-input{
+  font-size:1.2rem;
+  font-weight:800;
+  background:var(--card);
+}
 
-  .summary{
+.small-note{
+  color:var(--muted);
+  font-size:.8rem;
+  margin-top:8px;
+}
+
+.detail-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:12px;
+}
+
+.detail-item{
+  padding:10px;
+  background:var(--bg);
+  border-radius:11px;
+}
+
+.detail-item strong{
+  display:block;
+}
+
+.detail-sub{
+  color:var(--muted);
+  font-size:.85rem;
+  margin-top:3px;
+}
+
+@media(max-width:420px){
+
+  .summary-grid{
     gap:7px;
   }
 
   .summary-card{
-    padding:10px;
+    padding:11px 8px;
   }
 
-  .summary-card strong{
+  .summary-value{
     font-size:.92rem;
   }
 
@@ -581,47 +591,38 @@ select:focus{
     flex-direction:column;
   }
 
-  .item-bottom{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .item-actions{
+  .budget-row button{
     width:100%;
   }
-
-  .item-actions button{
-    flex:1;
-  }
-
 }
 </style>
 </head>
 
-<body class="font-normal">
+<body>
 
-<header>
+<header class="header">
 
   <div class="logo">
-    Meu Mercado
+    🛒 Meu Mercado
   </div>
 
   <div class="header-actions">
 
     <button
       class="icon-btn"
-      onclick="toggleDark()"
-      aria-label="Alternar tema"
+      onclick="openFontModal()"
+      aria-label="Tamanho do texto"
     >
-      ☾
+      A
     </button>
 
     <button
       class="icon-btn"
-      onclick="openAccessibility()"
-      aria-label="Acessibilidade"
+      onclick="toggleTheme()"
+      aria-label="Alternar tema"
+      id="themeBtn"
     >
-      A
+      ☾
     </button>
 
   </div>
@@ -629,77 +630,87 @@ select:focus{
 </header>
 
 
-<main>
+<main class="container">
 
 <!-- =========================
      MINHA LISTA
 ========================= -->
 
-<section id="listaTab" class="tab active">
+<section id="page-list" class="page active">
 
-  <div class="hero-title">
+  <h1 class="page-title">
+    Minha Lista
+  </h1>
 
-    <h1>Minha Lista</h1>
+  <div class="summary-grid">
 
-    <p>
-      Controle suas compras e seu orçamento.
-    </p>
+    <div class="summary-card">
+
+      <div class="summary-label">
+        Total
+      </div>
+
+      <div
+        class="summary-value"
+        id="totalValue"
+      >
+        R$ 0,00
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        Orçamento
+      </div>
+
+      <div
+        class="summary-value"
+        id="budgetValue"
+      >
+        R$ 0,00
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div
+        class="summary-label"
+        id="remainingLabel"
+      >
+        Restante
+      </div>
+
+      <div
+        class="summary-value"
+        id="remainingValue"
+      >
+        R$ 0,00
+      </div>
+
+    </div>
 
   </div>
 
 
-  <div class="summary">
+  <div class="budget-box">
 
-    <div class="summary-card">
-
-      <span>Total</span>
-
-      <strong id="totalValue">
-        R$ 0,00
-      </strong>
-
+    <div class="budget-title">
+      💰 Quanto você pode gastar?
     </div>
-
-
-    <div class="summary-card">
-
-      <span>Orçamento</span>
-
-      <strong id="budgetValue">
-        R$ 0,00
-      </strong>
-
-    </div>
-
-
-    <div class="summary-card">
-
-      <span>Restante</span>
-
-      <strong id="remainingValue">
-        R$ 0,00
-      </strong>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="card-title">
-      Meu orçamento
-    </div>
-
 
     <div class="budget-row">
 
       <input
-        type="number"
         id="budgetInput"
-        placeholder="Quanto você pode gastar?"
+        type="number"
         step="0.01"
         min="0"
+        placeholder="Ex.: 200,00"
       >
 
       <button
@@ -713,47 +724,33 @@ select:focus{
 
 
     <button
-      class="secondary-btn clear-budget"
+      class="secondary-btn full-btn"
       onclick="clearBudget()"
     >
       Limpar orçamento
     </button>
 
 
-    <div id="overBudgetMessage"></div>
-
-
     <button
-      class="whatsapp-btn"
-      onclick="sendToWhatsApp()"
+      class="primary-btn full-btn"
+      onclick="sendWhatsApp()"
     >
-      <span>WhatsApp</span>
-      <span>Enviar minha lista</span>
+      📱 Enviar minha lista
     </button>
 
   </div>
 
 
-  <div class="card">
-
-    <div class="card-title">
-      Produtos da lista
-    </div>
-
-
-    <div id="shoppingList"></div>
+  <div
+    class="overspend"
+    id="overspendBox"
+  ></div>
 
 
-    <button
-      id="finishButton"
-      class="primary-btn"
-      style="width:100%;margin-top:10px;"
-      onclick="finishPurchase()"
-    >
-      Finalizar compra
-    </button>
-
-  </div>
+  <div
+    id="shoppingList"
+    class="list"
+  ></div>
 
 </section>
 
@@ -762,36 +759,33 @@ select:focus{
      PRODUTOS
 ========================= -->
 
-<section id="produtosTab" class="tab">
+<section id="page-products" class="page">
 
-  <div class="hero-title">
+  <h1 class="page-title">
+    Produtos
+  </h1>
 
-    <h1>Produtos</h1>
 
-    <p>
-      Encontre produtos ou cadastre os seus.
-    </p>
+  <div class="search-box">
+
+    <input
+      id="searchInput"
+      type="search"
+      placeholder="🔎 Procurar produto..."
+      oninput="renderProducts()"
+    >
 
   </div>
 
 
-  <div class="card">
-
-    <input
-      id="searchInput"
-      class="search-box"
-      type="search"
-      placeholder="Pesquisar produto..."
-      oninput="renderProducts()"
-    >
-
+  <div class="filters">
 
     <select
       id="categoryFilter"
       onchange="renderProducts()"
     >
 
-      <option value="">
+      <option value="Todos">
         Todas as categorias
       </option>
 
@@ -812,69 +806,63 @@ select:focus{
 
     </select>
 
-
-    <div
-      id="productsList"
-      style="margin-top:14px;"
-    ></div>
+  </div>
 
 
-    <div class="new-product">
-
-      <div class="card-title">
-        Adicionar novo produto
-      </div>
-
-
-      <div class="new-product-grid">
-
-        <input
-          id="newProductName"
-          placeholder="Nome do produto"
-        >
+  <div
+    id="productsList"
+    class="products-list"
+  ></div>
 
 
-        <input
-          id="newProductPrice"
-          type="number"
-          placeholder="Preço"
-          min="0"
-          step="0.01"
-        >
+  <div class="add-product-box">
+
+    <div class="form-title">
+      ➕ Criar novo produto
+    </div>
+
+    <div class="form-grid">
+
+      <input
+        id="newProductName"
+        type="text"
+        placeholder="Nome do produto"
+      >
+
+      <input
+        id="newProductPrice"
+        type="number"
+        step="0.01"
+        min="0"
+        placeholder="Preço"
+      >
+
+      <select id="newProductCategory">
+
+        <option>Alimentos</option>
+        <option>Bebidas</option>
+        <option>Carnes</option>
+        <option>Frutas</option>
+        <option>Verduras e legumes</option>
+        <option>Laticínios</option>
+        <option>Padaria</option>
+        <option>Congelados</option>
+        <option>Higiene pessoal</option>
+        <option>Limpeza</option>
+        <option>Casa</option>
+        <option>Bebês</option>
+        <option>Pet</option>
+        <option>Outros</option>
+
+      </select>
 
 
-        <select id="newProductCategory">
-
-          <option value="">
-            Escolha a categoria
-          </option>
-
-          <option>Alimentos</option>
-          <option>Bebidas</option>
-          <option>Carnes</option>
-          <option>Frutas</option>
-          <option>Verduras e legumes</option>
-          <option>Laticínios</option>
-          <option>Padaria</option>
-          <option>Congelados</option>
-          <option>Higiene pessoal</option>
-          <option>Limpeza</option>
-          <option>Casa</option>
-          <option>Bebês</option>
-          <option>Pet</option>
-          <option>Outros</option>
-
-        </select>
-
-
-        <button
-          class="primary-btn"
-          onclick="addNewProduct()"
-        >
-          Adicionar produto
-        </button>
-
-      </div>
+      <button
+        class="primary-btn"
+        onclick="createProduct()"
+      >
+        Adicionar produto
+      </button>
 
     </div>
 
@@ -887,36 +875,26 @@ select:focus{
      HISTÓRICO
 ========================= -->
 
-<section id="historicoTab" class="tab">
+<section id="page-history" class="page">
 
-  <div class="hero-title">
-
-    <div class="history-header">
-
-      <div>
-
-        <h1>Histórico</h1>
-
-        <p>
-          Suas compras finalizadas.
-        </p>
-
-      </div>
+  <h1 class="page-title">
+    Histórico
+  </h1>
 
 
-      <button
-        class="clear-history"
-        onclick="openClearHistory()"
-      >
-        Limpar histórico
-      </button>
-
-    </div>
-
-  </div>
+  <button
+    class="danger-btn full-btn"
+    onclick="confirmClearHistory()"
+    style="margin-top:0;margin-bottom:14px;"
+  >
+    🗑️ Limpar histórico
+  </button>
 
 
-  <div id="historyList"></div>
+  <div
+    id="historyList"
+    class="history-list"
+  ></div>
 
 </section>
 
@@ -931,114 +909,105 @@ select:focus{
 
   <button
     class="nav-btn active"
-    id="navLista"
-    onclick="showTab('lista')"
+    id="nav-list"
+    onclick="showPage('list')"
   >
-
-    <span class="nav-icon">☰</span>
-
+    <span class="nav-icon">🛒</span>
     Minha Lista
-
   </button>
 
 
   <button
     class="nav-btn"
-    id="navProdutos"
-    onclick="showTab('produtos')"
+    id="nav-products"
+    onclick="showPage('products')"
   >
-
-    <span class="nav-icon">▦</span>
-
+    <span class="nav-icon">🏪</span>
     Produtos
-
   </button>
 
 
   <button
     class="nav-btn"
-    id="navHistorico"
-    onclick="showTab('historico')"
+    id="nav-history"
+    onclick="showPage('history')"
   >
-
-    <span class="nav-icon">◷</span>
-
+    <span class="nav-icon">🕐</span>
     Histórico
-
   </button>
 
 </nav>
 
 
 <!-- =========================
-     MODAL ACESSIBILIDADE
+     MODAL PRODUTO
 ========================= -->
 
 <div
-  class="modal-bg"
-  id="accessModal"
+  class="modal"
+  id="priceModal"
 >
 
-  <div class="modal">
+  <div class="modal-box">
 
-    <div class="modal-header">
+    <div
+      class="modal-title"
+      id="priceModalTitle"
+    >
+      🛒 Adicionar produto
+    </div>
 
-      <h2>
-        Tamanho do texto
-      </h2>
 
-      <button
-        class="close-btn"
-        onclick="closeModal('accessModal')"
-      >
-        ×
-      </button>
+    <div class="modal-subtitle">
+
+      Toque no preço abaixo para colocar
+      o valor que você encontrou no mercado.
 
     </div>
 
 
-    <p
-      style="color:var(--muted);margin-bottom:14px;"
-    >
-      Escolha o tamanho que fica melhor para você.
-    </p>
+    <div class="price-area">
+
+      <div class="price-label">
+        💰 Preço do produto
+      </div>
 
 
-    <div class="access-options">
+      <input
+        id="newPriceInput"
+        class="price-input"
+        type="number"
+        step="0.01"
+        min="0"
+      >
+
+    </div>
+
+
+    <div class="small-note">
+
+      O preço informado será salvo automaticamente
+      para este produto e continuará salvo nas
+      próximas compras.
+
+    </div>
+
+
+    <div class="modal-buttons">
 
       <button
-        class="access-option"
-        data-size="small"
-        onclick="setFontSize('small')"
+        class="primary-btn"
+        onclick="applyProductPrice()"
       >
-        A−
+        Adicionar
       </button>
 
 
       <button
-        class="access-option"
-        data-size="normal"
-        onclick="setFontSize('normal')"
+        class="secondary-btn"
+        onclick="closePriceModal()"
       >
-        A
-      </button>
-
-
-      <button
-        class="access-option"
-        data-size="large"
-        onclick="setFontSize('large')"
-      >
-        A+
-      </button>
-
-
-      <button
-        class="access-option"
-        data-size="xlarge"
-        onclick="setFontSize('xlarge')"
-      >
-        A++
+        Voltar
       </button>
 
     </div>
@@ -1049,69 +1018,67 @@ select:focus{
 
 
 <!-- =========================
-     MODAL ALTERAR PREÇO
+     MODAL FONTE
 ========================= -->
 
 <div
-  class="modal-bg"
-  id="priceModal"
+  class="modal"
+  id="fontModal"
 >
 
-  <div class="modal">
+  <div class="modal-box">
 
-    <div class="modal-header">
+    <div class="modal-title">
+      🔠 Tamanho do texto
+    </div>
 
-      <h2>
-        Alterar preço
-      </h2>
+    <div class="modal-subtitle">
 
-      <button
-        class="close-btn"
-        onclick="closeModal('priceModal')"
-      >
-        ×
-      </button>
+      Escolha o tamanho que fica mais
+      confortável para você.
 
     </div>
 
 
-    <p
-      style="
-        color:var(--muted);
-        margin-bottom:12px;
-      "
-    >
-      Altere o preço deste produto para o valor encontrado no mercado.
-    </p>
-
-
-    <input
-      type="number"
-      id="newPriceInput"
-      min="0"
-      step="0.01"
-      placeholder="Novo preço"
-    >
-
-
-    <div class="modal-actions">
+    <div class="modal-buttons">
 
       <button
         class="secondary-btn"
-        onclick="closeModal('priceModal')"
+        onclick="setFontSize('small')"
       >
-        Cancelar
+        A−
       </button>
 
+      <button
+        class="secondary-btn"
+        onclick="setFontSize('normal')"
+      >
+        A
+      </button>
 
       <button
-        class="primary-btn"
-        onclick="saveProductPrice()"
+        class="secondary-btn"
+        onclick="setFontSize('large')"
       >
-        Salvar
+        A+
+      </button>
+
+      <button
+        class="secondary-btn"
+        onclick="setFontSize('xlarge')"
+      >
+        A++
       </button>
 
     </div>
+
+
+    <button
+      class="secondary-btn full-btn"
+      onclick="closeFontModal()"
+    >
+      Voltar
+    </button>
 
   </div>
 
@@ -1123,29 +1090,25 @@ select:focus{
 ========================= -->
 
 <div
-  class="modal-bg"
+  class="modal"
   id="historyModal"
 >
 
-  <div class="modal">
+  <div class="modal-box">
 
-    <div class="modal-header">
-
-      <h2>
-        Minha compra
-      </h2>
-
-      <button
-        class="close-btn"
-        onclick="closeModal('historyModal')"
-      >
-        ×
-      </button>
-
+    <div class="modal-title">
+      🧾 Compra realizada
     </div>
 
-
     <div id="historyDetails"></div>
+
+
+    <button
+      class="secondary-btn full-btn"
+      onclick="closeHistoryModal()"
+    >
+      Voltar
+    </button>
 
   </div>
 
@@ -1153,58 +1116,47 @@ select:focus{
 
 
 <!-- =========================
-     MODAL LIMPAR HISTÓRICO
+     MODAL CONFIRMAR HISTÓRICO
 ========================= -->
 
 <div
-  class="modal-bg"
-  id="clearHistoryModal"
+  class="modal"
+  id="confirmHistoryModal"
 >
 
-  <div class="modal">
+  <div class="modal-box">
 
-    <div class="modal-header">
-
-      <h2>
-        Limpar histórico?
-      </h2>
-
-      <button
-        class="close-btn"
-        onclick="closeModal('clearHistoryModal')"
-      >
-        ×
-      </button>
-
+    <div class="modal-title">
+      🗑️ Limpar histórico?
     </div>
 
 
-    <p class="confirm-text">
+    <div class="modal-subtitle">
 
       Todas as compras salvas no histórico
       serão apagadas.
 
-      Sua lista atual, seus produtos e seu
-      orçamento continuarão intactos.
+      Sua lista atual, produtos e orçamento
+      continuarão intactos.
 
-    </p>
+    </div>
 
 
-    <div class="modal-actions">
-
-      <button
-        class="secondary-btn"
-        onclick="closeModal('clearHistoryModal')"
-      >
-        Cancelar
-      </button>
-
+    <div class="modal-buttons">
 
       <button
         class="danger-btn"
         onclick="clearHistory()"
       >
         Limpar
+      </button>
+
+
+      <button
+        class="secondary-btn"
+        onclick="closeConfirmHistory()"
+      >
+        Voltar
       </button>
 
     </div>
@@ -1216,182 +1168,53 @@ select:focus{
 
 <script>
 
-/* =========================
+/* =====================================================
    PRODUTOS PADRÃO
-========================= */
+===================================================== */
 
 const defaultProducts = [
 
-  {
-    id:1,
-    name:"Arroz 5kg",
-    price:28.90,
-    category:"Alimentos"
-  },
+  {id:"p-arroz",name:"Arroz 5kg",price:28.90,category:"Alimentos"},
+  {id:"p-feijao",name:"Feijão 1kg",price:8.50,category:"Alimentos"},
+  {id:"p-macarrao",name:"Macarrão 500g",price:5.50,category:"Alimentos"},
+  {id:"p-acucar",name:"Açúcar 1kg",price:4.80,category:"Alimentos"},
+  {id:"p-cafe",name:"Café 500g",price:18.90,category:"Alimentos"},
+  {id:"p-oleo",name:"Óleo de soja 900ml",price:7.20,category:"Alimentos"},
 
-  {
-    id:2,
-    name:"Feijão 1kg",
-    price:8.50,
-    category:"Alimentos"
-  },
+  {id:"p-leite",name:"Leite 1L",price:5.90,category:"Laticínios"},
+  {id:"p-manteiga",name:"Manteiga 200g",price:11.90,category:"Laticínios"},
 
-  {
-    id:3,
-    name:"Macarrão 500g",
-    price:5.50,
-    category:"Alimentos"
-  },
+  {id:"p-pao",name:"Pão de forma",price:9.50,category:"Padaria"},
 
-  {
-    id:4,
-    name:"Açúcar 1kg",
-    price:4.80,
-    category:"Alimentos"
-  },
+  {id:"p-frango",name:"Frango 1kg",price:12.90,category:"Carnes"},
+  {id:"p-carne",name:"Carne bovina 1kg",price:32.90,category:"Carnes"},
 
-  {
-    id:5,
-    name:"Café 500g",
-    price:18.90,
-    category:"Alimentos"
-  },
+  {id:"p-banana",name:"Banana 1kg",price:6.90,category:"Frutas"},
+  {id:"p-maca",name:"Maçã 1kg",price:9.90,category:"Frutas"},
 
-  {
-    id:6,
-    name:"Óleo de soja 900ml",
-    price:7.20,
-    category:"Alimentos"
-  },
+  {id:"p-tomate",name:"Tomate 1kg",price:7.90,category:"Verduras e legumes"},
+  {id:"p-batata",name:"Batata 1kg",price:6.50,category:"Verduras e legumes"},
 
-  {
-    id:7,
-    name:"Leite 1L",
-    price:5.90,
-    category:"Laticínios"
-  },
+  {id:"p-refri",name:"Refrigerante 2L",price:8.90,category:"Bebidas"},
+  {id:"p-agua",name:"Água 1,5L",price:3.50,category:"Bebidas"},
 
-  {
-    id:8,
-    name:"Manteiga 200g",
-    price:11.90,
-    category:"Laticínios"
-  },
+  {id:"p-sabonete",name:"Sabonete",price:2.90,category:"Higiene pessoal"},
+  {id:"p-shampoo",name:"Shampoo",price:12.90,category:"Higiene pessoal"},
+  {id:"p-pasta",name:"Pasta de dente",price:5.90,category:"Higiene pessoal"},
 
-  {
-    id:9,
-    name:"Pão de forma",
-    price:9.50,
-    category:"Padaria"
-  },
+  {id:"p-detergente",name:"Detergente",price:2.50,category:"Limpeza"},
+  {id:"p-sabao",name:"Sabão em pó",price:12.90,category:"Limpeza"},
 
-  {
-    id:10,
-    name:"Frango 1kg",
-    price:12.90,
-    category:"Carnes"
-  },
+  {id:"p-papel",name:"Papel higiênico",price:18.90,category:"Higiene pessoal"},
 
-  {
-    id:11,
-    name:"Carne bovina 1kg",
-    price:32.90,
-    category:"Carnes"
-  },
-
-  {
-    id:12,
-    name:"Banana 1kg",
-    price:6.90,
-    category:"Frutas"
-  },
-
-  {
-    id:13,
-    name:"Maçã 1kg",
-    price:9.90,
-    category:"Frutas"
-  },
-
-  {
-    id:14,
-    name:"Tomate 1kg",
-    price:7.90,
-    category:"Verduras e legumes"
-  },
-
-  {
-    id:15,
-    name:"Batata 1kg",
-    price:6.50,
-    category:"Verduras e legumes"
-  },
-
-  {
-    id:16,
-    name:"Refrigerante 2L",
-    price:8.90,
-    category:"Bebidas"
-  },
-
-  {
-    id:17,
-    name:"Água 1,5L",
-    price:3.50,
-    category:"Bebidas"
-  },
-
-  {
-    id:18,
-    name:"Sabonete",
-    price:2.90,
-    category:"Higiene pessoal"
-  },
-
-  {
-    id:19,
-    name:"Shampoo",
-    price:12.90,
-    category:"Higiene pessoal"
-  },
-
-  {
-    id:20,
-    name:"Pasta de dente",
-    price:5.90,
-    category:"Higiene pessoal"
-  },
-
-  {
-    id:21,
-    name:"Detergente",
-    price:2.50,
-    category:"Limpeza"
-  },
-
-  {
-    id:22,
-    name:"Sabão em pó",
-    price:12.90,
-    category:"Limpeza"
-  },
-
-  {
-    id:23,
-    name:"Papel higiênico",
-    price:18.90,
-    category:"Higiene pessoal"
-  },
-
-  {
-    id:24,
-    name:"Ração para cachorro",
-    price:18.90,
-    category:"Pet"
-  }
+  {id:"p-racao",name:"Ração para cachorro",price:18.90,category:"Pet"}
 
 ];
 
+
+/* =====================================================
+   CARREGAMENTO DOS DADOS
+===================================================== */
 
 let products =
   JSON.parse(
@@ -1418,17 +1241,88 @@ let budget =
 
 
 /*
-  Agora o ID de edição pertence ao PRODUTO
-  do catálogo e não ao item da lista.
+  ID DO PRODUTO QUE ESTÁ SENDO EDITADO/ADICIONADO.
+  Agora ele é separado e controlado de forma segura.
 */
-let editingProductId = null;
+let selectedProductId = null;
 
 
-/* =========================
-   ARMAZENAMENTO
-========================= */
+/* =====================================================
+   GARANTIR IDs ÚNICOS
+===================================================== */
 
-function saveData(){
+function createUniqueId(){
+
+  if(
+    typeof crypto !== "undefined" &&
+    crypto.randomUUID
+  ){
+    return "p-" + crypto.randomUUID();
+  }
+
+  return "p-" +
+    Date.now().toString(36) +
+    "-" +
+    Math.random().toString(36).substring(2,10);
+}
+
+
+/*
+  Corrige produtos antigos que possam ter IDs
+  repetidos ou inexistentes.
+
+  Isso ajuda a evitar que dois produtos diferentes
+  sejam tratados como o mesmo produto.
+*/
+
+function normalizeProductIds(){
+
+  const usedIds = new Set();
+
+  products.forEach(product => {
+
+    let id = String(product.id || "");
+
+    if(!id || usedIds.has(id)){
+
+      const oldId = id;
+
+      id = createUniqueId();
+
+      /*
+        Se existir item da lista usando o ID antigo,
+        só alteramos quando houver uma correspondência
+        clara pelo nome.
+      */
+
+      shoppingList.forEach(item => {
+
+        if(
+          String(item.id) === oldId &&
+          item.name === product.name
+        ){
+          item.id = id;
+        }
+
+      });
+
+    }
+
+    product.id = id;
+
+    usedIds.add(id);
+
+  });
+
+  saveAll();
+}
+
+
+/* =====================================================
+   SALVAR
+===================================================== */
+
+function saveAll(){
 
   localStorage.setItem(
     "meuMercadoProducts",
@@ -1449,30 +1343,27 @@ function saveData(){
     "meuMercadoBudget",
     String(budget)
   );
-
 }
 
 
-/* =========================
-   FUNÇÕES BÁSICAS
-========================= */
+/* =====================================================
+   UTILITÁRIOS
+===================================================== */
 
 function money(value){
 
-  return Number(value).toLocaleString(
-    "pt-BR",
-    {
+  return Number(value || 0)
+    .toLocaleString("pt-BR",{
       style:"currency",
       currency:"BRL"
-    }
-  );
+    });
 
 }
 
 
-function escapeHTML(value){
+function escapeHTML(text){
 
-  return String(value)
+  return String(text)
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -1482,151 +1373,145 @@ function escapeHTML(value){
 }
 
 
+/*
+  Encontra o produto comparando como texto.
+  Isso evita problemas entre IDs numéricos e
+  IDs que vieram do localStorage como strings.
+*/
+
+function findProduct(id){
+
+  const wantedId = String(id);
+
+  return products.find(
+    product =>
+      String(product.id) === wantedId
+  );
+
+}
+
+
+/* =====================================================
+   NAVEGAÇÃO
+===================================================== */
+
+function showPage(page){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(p =>
+      p.classList.remove("active")
+    );
+
+
+  document
+    .getElementById("page-" + page)
+    .classList.add("active");
+
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+
+  document
+    .getElementById("nav-" + page)
+    .classList.add("active");
+
+
+  if(page === "list"){
+    renderList();
+  }
+
+  if(page === "products"){
+    renderProducts();
+  }
+
+  if(page === "history"){
+    renderHistory();
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   ORÇAMENTO
+===================================================== */
+
+function saveBudget(){
+
+  const value =
+    Number(
+      document.getElementById("budgetInput").value
+    );
+
+
+  if(isNaN(value) || value < 0){
+    return;
+  }
+
+
+  budget = value;
+
+
+  localStorage.setItem(
+    "meuMercadoBudget",
+    String(budget)
+  );
+
+
+  renderList();
+
+}
+
+
+function clearBudget(){
+
+  budget = 0;
+
+
+  localStorage.setItem(
+    "meuMercadoBudget",
+    "0"
+  );
+
+
+  document.getElementById(
+    "budgetInput"
+  ).value = "";
+
+
+  renderList();
+
+}
+
+
+/* =====================================================
+   MINHA LISTA
+===================================================== */
+
 function getTotal(){
 
   return shoppingList.reduce(
-    function(total,item){
-
-      return total +
-        (
-          Number(item.price) *
-          Number(item.quantity)
-        );
-
-    },
+    (total,item) =>
+      total +
+      (
+        Number(item.price) *
+        Number(item.quantity)
+      ),
     0
   );
 
 }
 
-
-/* =========================
-   ABAS
-========================= */
-
-function showTab(tab){
-
-  document.querySelectorAll(".tab")
-    .forEach(function(element){
-
-      element.classList.remove("active");
-
-    });
-
-
-  document.querySelectorAll(".nav-btn")
-    .forEach(function(element){
-
-      element.classList.remove("active");
-
-    });
-
-
-  if(tab==="lista"){
-
-    document.getElementById("listaTab")
-      .classList.add("active");
-
-    document.getElementById("navLista")
-      .classList.add("active");
-
-  }
-
-
-  if(tab==="produtos"){
-
-    document.getElementById("produtosTab")
-      .classList.add("active");
-
-    document.getElementById("navProdutos")
-      .classList.add("active");
-
-    renderProducts();
-
-  }
-
-
-  if(tab==="historico"){
-
-    document.getElementById("historicoTab")
-      .classList.add("active");
-
-    document.getElementById("navHistorico")
-      .classList.add("active");
-
-    renderHistory();
-
-  }
-
-}
-
-
-/* =========================
-   RESUMO
-========================= */
-
-function renderSummary(){
-
-  const total = getTotal();
-
-  const remaining =
-    budget - total;
-
-
-  document.getElementById("totalValue")
-    .textContent = money(total);
-
-
-  document.getElementById("budgetValue")
-    .textContent = money(budget);
-
-
-  const remainingElement =
-    document.getElementById(
-      "remainingValue"
-    );
-
-
-  remainingElement.textContent =
-    money(remaining);
-
-
-  remainingElement.classList.toggle(
-    "money-danger",
-    remaining < 0
-  );
-
-
-  const overBudget =
-    document.getElementById(
-      "overBudgetMessage"
-    );
-
-
-  if(
-    budget > 0 &&
-    total > budget
-  ){
-
-    overBudget.innerHTML = `
-      <div class="over-budget">
-        Você ultrapassou seu orçamento em
-        ${money(total-budget)}.
-      </div>
-    `;
-
-  }else{
-
-    overBudget.innerHTML = "";
-
-  }
-
-}
-
-
-/* =========================
-   MINHA LISTA
-========================= */
 
 function renderList(){
 
@@ -1636,36 +1521,114 @@ function renderList(){
     );
 
 
-  if(shoppingList.length===0){
-
-    container.innerHTML = `
-      <div class="list-empty">
-        Sua lista está vazia.<br>
-        Vá em <strong>Produtos</strong>
-        para adicionar itens.
-      </div>
-    `;
+  const total = getTotal();
 
 
+  document.getElementById(
+    "totalValue"
+  ).textContent = money(total);
+
+
+  document.getElementById(
+    "budgetValue"
+  ).textContent = money(budget);
+
+
+  const remaining =
+    budget - total;
+
+
+  const remainingValue =
     document.getElementById(
-      "finishButton"
-    ).style.display = "none";
+      "remainingValue"
+    );
 
 
-    renderSummary();
+  const remainingLabel =
+    document.getElementById(
+      "remainingLabel"
+    );
 
-    return;
+
+  const overspendBox =
+    document.getElementById(
+      "overspendBox"
+    );
+
+
+  if(
+    budget > 0 &&
+    remaining < 0
+  ){
+
+    remainingLabel.textContent =
+      "Ultrapassou";
+
+
+    remainingValue.textContent =
+      money(Math.abs(remaining));
+
+
+    remainingValue.classList.add(
+      "danger"
+    );
+
+
+    overspendBox.style.display =
+      "block";
+
+
+    overspendBox.textContent =
+      "⚠️ Você ultrapassou seu orçamento em " +
+      money(Math.abs(remaining));
+
+  }else{
+
+    remainingLabel.textContent =
+      "Restante";
+
+
+    remainingValue.textContent =
+      money(
+        Math.max(remaining,0)
+      );
+
+
+    remainingValue.classList.remove(
+      "danger"
+    );
+
+
+    overspendBox.style.display =
+      "none";
 
   }
 
 
   document.getElementById(
-    "finishButton"
-  ).style.display = "block";
+    "budgetInput"
+  ).value =
+    budget > 0
+      ? budget
+      : "";
+
+
+  if(shoppingList.length === 0){
+
+    container.innerHTML = `
+      <div class="empty">
+        🛒 Sua lista está vazia.<br>
+        Vá em <strong>Produtos</strong>
+        para adicionar itens.
+      </div>
+    `;
+
+    return;
+  }
 
 
   container.innerHTML =
-    shoppingList.map(function(item){
+    shoppingList.map(item => {
 
       const subtotal =
         Number(item.price) *
@@ -1674,7 +1637,7 @@ function renderList(){
 
       return `
 
-        <div class="list-item">
+        <div class="item-card">
 
           <div class="item-top">
 
@@ -1684,8 +1647,10 @@ function renderList(){
                 ${escapeHTML(item.name)}
               </div>
 
-              <div class="item-category">
-                ${escapeHTML(item.category)}
+              <div class="item-meta">
+                ${escapeHTML(
+                  item.category || "Outros"
+                )}
               </div>
 
             </div>
@@ -1700,22 +1665,24 @@ function renderList(){
 
           <div class="item-bottom">
 
-            <div class="qty">
+            <div class="quantity">
 
               <button
-                onclick="changeQuantity(${item.id},-1)"
+                class="qty-btn"
+                onclick="changeQuantity('${String(item.id)}',-1)"
               >
                 −
               </button>
 
 
-              <strong>
+              <div class="qty-number">
                 ${item.quantity}
-              </strong>
+              </div>
 
 
               <button
-                onclick="changeQuantity(${item.id},1)"
+                class="qty-btn"
+                onclick="changeQuantity('${String(item.id)}',1)"
               >
                 +
               </button>
@@ -1723,21 +1690,17 @@ function renderList(){
             </div>
 
 
-            <!--
-              ALTERAR PREÇO FOI REMOVIDO DAQUI.
-              Agora a lista fica mais limpa.
-            -->
-
-            <div class="item-actions">
-
-              <button
-                class="small-btn"
-                onclick="removeItem(${item.id})"
-              >
-                Remover
-              </button>
-
+            <div class="item-meta">
+              ${money(item.price)} cada
             </div>
+
+
+            <button
+              class="danger-btn"
+              onclick="removeFromList('${String(item.id)}')"
+            >
+              Remover
+            </button>
 
           </div>
 
@@ -1747,157 +1710,175 @@ function renderList(){
 
     }).join("");
 
-
-  renderSummary();
-
 }
 
 
-/* =========================
+/* =====================================================
    ADICIONAR À LISTA
-========================= */
+===================================================== */
 
-function addToList(id){
+function addToList(id, priceOverride = null){
 
   const product =
-    products.find(function(item){
-
-      return item.id===id;
-
-    });
+    findProduct(id);
 
 
   if(!product){
-
     return;
-
   }
 
 
+  const price =
+    priceOverride !== null
+      ? Number(priceOverride)
+      : Number(product.price);
+
+
+  /*
+    IMPORTANTE:
+    A comparação agora usa String(id).
+    Assim arroz nunca será confundido com feijão.
+  */
+
   const existing =
-    shoppingList.find(function(item){
-
-      return item.id===id;
-
-    });
+    shoppingList.find(
+      item =>
+        String(item.id) === String(product.id)
+    );
 
 
   if(existing){
 
-    existing.quantity++;
+    /*
+      Se já estiver na lista, aumenta a quantidade.
+    */
+
+    existing.quantity =
+      Number(existing.quantity) + 1;
+
+
+    /*
+      Mantém o preço atualizado.
+    */
+
+    existing.price = price;
 
   }else{
 
+    /*
+      Produto diferente:
+      cria um novo item independente.
+    */
+
     shoppingList.push({
 
-      id:product.id,
+      id: String(product.id),
 
-      name:product.name,
+      name: product.name,
 
-      price:Number(product.price),
+      category: product.category,
 
-      category:product.category,
+      price: price,
 
-      quantity:1
+      quantity: 1
 
     });
 
   }
 
 
-  saveData();
-
+  saveAll();
   renderList();
 
 }
 
 
-/* =========================
+/* =====================================================
    QUANTIDADE
-========================= */
+===================================================== */
 
-function changeQuantity(id,change){
+function changeQuantity(id,amount){
 
   const item =
-    shoppingList.find(function(element){
-
-      return element.id===id;
-
-    });
+    shoppingList.find(
+      item =>
+        String(item.id) === String(id)
+    );
 
 
   if(!item){
-
     return;
-
   }
 
 
-  item.quantity += change;
+  item.quantity =
+    Number(item.quantity) + amount;
 
 
-  if(item.quantity<=0){
+  if(item.quantity <= 0){
 
     shoppingList =
-      shoppingList.filter(function(element){
-
-        return element.id!==id;
-
-      });
+      shoppingList.filter(
+        item =>
+          String(item.id) !== String(id)
+      );
 
   }
 
 
-  saveData();
-
+  saveAll();
   renderList();
 
 }
 
 
-/* =========================
-   REMOVER ITEM
-========================= */
+/* =====================================================
+   REMOVER
+===================================================== */
 
-function removeItem(id){
+function removeFromList(id){
 
   shoppingList =
-    shoppingList.filter(function(item){
+    shoppingList.filter(
+      item =>
+        String(item.id) !== String(id)
+    );
 
-      return item.id!==id;
 
-    });
-
-
-  saveData();
-
+  saveAll();
   renderList();
 
 }
 
 
-/* =========================
+/* =====================================================
    PRODUTOS
-========================= */
+===================================================== */
 
 function renderProducts(){
 
-  const search =
+  const container =
     document.getElementById(
-      "searchInput"
-    ).value
-     .toLowerCase()
-     .trim();
+      "productsList"
+    );
+
+
+  const search =
+    document
+      .getElementById("searchInput")
+      .value
+      .trim()
+      .toLowerCase();
 
 
   const category =
-    document.getElementById(
-      "categoryFilter"
-    ).value;
+    document
+      .getElementById("categoryFilter")
+      .value;
 
 
   const filtered =
-    products.filter(function(product){
+    products.filter(product => {
 
       const matchesSearch =
         product.name
@@ -1906,8 +1887,8 @@ function renderProducts(){
 
 
       const matchesCategory =
-        !category ||
-        product.category===category;
+        category === "Todos" ||
+        product.category === category;
 
 
       return (
@@ -1918,41 +1899,51 @@ function renderProducts(){
     });
 
 
-  const container =
-    document.getElementById(
-      "productsList"
-    );
-
-
-  if(filtered.length===0){
+  if(filtered.length === 0){
 
     container.innerHTML = `
-      <div class="list-empty">
+      <div class="empty">
         Nenhum produto encontrado.
       </div>
     `;
 
     return;
-
   }
 
 
   container.innerHTML =
-    filtered.map(function(product){
+    filtered.map(product => {
+
+      /*
+        O ID é transformado em texto para
+        garantir que cada botão aponte
+        exatamente para seu produto.
+      */
+
+      const safeId =
+        String(product.id)
+          .replace(/\\/g,"\\\\")
+          .replace(/'/g,"\\'");
+
 
       return `
 
-        <div class="product-item">
+        <div class="product-card">
 
           <div class="product-info">
 
-            <div class="item-name">
-              ${escapeHTML(product.name)}
+            <div>
+
+              <div class="product-name">
+                ${escapeHTML(product.name)}
+              </div>
+
+              <div class="product-category">
+                ${escapeHTML(product.category)}
+              </div>
+
             </div>
 
-            <div class="item-category">
-              ${escapeHTML(product.category)}
-            </div>
 
             <div class="product-price">
               ${money(product.price)}
@@ -1961,19 +1952,11 @@ function renderProducts(){
           </div>
 
 
-          <div class="product-actions">
-
-            <button
-              class="secondary-btn"
-              onclick="editProductPrice(${product.id})"
-            >
-              Alterar preço
-            </button>
-
+          <div class="product-action">
 
             <button
               class="primary-btn"
-              onclick="addToList(${product.id})"
+              onclick="openAddProductModal('${safeId}')"
             >
               Adicionar
             </button>
@@ -1989,28 +1972,34 @@ function renderProducts(){
 }
 
 
-/* =========================
-   ALTERAR PREÇO DO PRODUTO
-========================= */
+/* =====================================================
+   ABRIR PAINEL DO PRODUTO
+===================================================== */
 
-function editProductPrice(id){
+function openAddProductModal(id){
 
   const product =
-    products.find(function(item){
-
-      return item.id===id;
-
-    });
+    findProduct(id);
 
 
   if(!product){
-
     return;
-
   }
 
 
-  editingProductId = id;
+  /*
+    Guardamos EXATAMENTE o ID do produto
+    que a pessoa acabou de escolher.
+  */
+
+  selectedProductId =
+    String(product.id);
+
+
+  document.getElementById(
+    "priceModalTitle"
+  ).textContent =
+    "🛒 " + product.name;
 
 
   document.getElementById(
@@ -2019,97 +2008,214 @@ function editProductPrice(id){
     Number(product.price).toFixed(2);
 
 
-  document.getElementById(
-    "priceModal"
-  ).classList.add("show");
+  const modal =
+    document.getElementById(
+      "priceModal"
+    );
+
+
+  /*
+    A classe agora faz a animação suave.
+  */
+
+  requestAnimationFrame(() => {
+
+    modal.classList.add("show");
+
+  });
+
+
+  setTimeout(() => {
+
+    const input =
+      document.getElementById(
+        "newPriceInput"
+      );
+
+
+    input.focus();
+
+    input.select();
+
+  },280);
 
 }
 
 
-function saveProductPrice(){
+/* =====================================================
+   APLICAR PREÇO + ADICIONAR
+===================================================== */
 
-  const value =
-    Number(
-      document.getElementById(
-        "newPriceInput"
-      ).value
+function applyProductPrice(){
+
+  if(
+    selectedProductId === null
+  ){
+    return;
+  }
+
+
+  const product =
+    findProduct(
+      selectedProductId
     );
 
 
-  if(
-    !Number.isFinite(value) ||
-    value<0
-  ){
+  if(!product){
 
+    closePriceModal();
     return;
 
   }
 
 
-  const product =
-    products.find(function(item){
-
-      return item.id===editingProductId;
-
-    });
+  const input =
+    document.getElementById(
+      "newPriceInput"
+    );
 
 
-  if(!product){
+  const newPrice =
+    Number(input.value);
 
+
+  if(
+    isNaN(newPrice) ||
+    newPrice < 0
+  ){
+
+    input.focus();
     return;
 
   }
 
 
   /*
-    O preço é alterado no catálogo.
-    Assim, quando o produto for adicionado
-    novamente à lista, já entra com o novo preço.
+    O NOVO PREÇO É SALVO PERMANENTEMENTE
+    NO CATÁLOGO DO PRODUTO.
   */
 
-  product.price = value;
+  product.price =
+    newPrice;
 
 
-  saveData();
+  /*
+    Se já existir na lista,
+    o preço também é atualizado.
+  */
 
-  closeModal("priceModal");
+  const existing =
+    shoppingList.find(
+      item =>
+        String(item.id) ===
+        String(product.id)
+    );
+
+
+  if(existing){
+
+    existing.price =
+      newPrice;
+
+  }
+
+
+  /*
+    Agora salvamos antes de adicionar.
+  */
+
+  saveAll();
+
+
+  /*
+    Adiciona exatamente o produto escolhido.
+  */
+
+  addToList(
+    product.id,
+    newPrice
+  );
+
+
+  /*
+    Fecha o painel.
+  */
+
+  closePriceModal();
+
 
   renderProducts();
+  renderList();
 
 }
 
 
-/* =========================
-   NOVO PRODUTO
-========================= */
+/* =====================================================
+   FECHAR PAINEL DO PRODUTO
+===================================================== */
 
-function addNewProduct(){
+function closePriceModal(){
+
+  const modal =
+    document.getElementById(
+      "priceModal"
+    );
+
+
+  modal.classList.remove("show");
+
+
+  /*
+    Espera a animação terminar antes
+    de limpar o produto selecionado.
+  */
+
+  setTimeout(() => {
+
+    selectedProductId = null;
+
+  },280);
+
+}
+
+
+/* =====================================================
+   CRIAR PRODUTO
+===================================================== */
+
+function createProduct(){
 
   const name =
-    document.getElementById(
-      "newProductName"
-    ).value.trim();
+    document
+      .getElementById(
+        "newProductName"
+      )
+      .value
+      .trim();
 
 
   const price =
     Number(
-      document.getElementById(
-        "newProductPrice"
-      ).value
+      document
+        .getElementById(
+          "newProductPrice"
+        )
+        .value
     );
 
 
   const category =
-    document.getElementById(
-      "newProductCategory"
-    ).value;
+    document
+      .getElementById(
+        "newProductCategory"
+      )
+      .value;
 
 
   if(
     !name ||
-    !Number.isFinite(price) ||
-    price<0 ||
-    !category
+    isNaN(price) ||
+    price < 0
   ){
 
     return;
@@ -2117,9 +2223,9 @@ function addNewProduct(){
   }
 
 
-  products.push({
+  const newProduct = {
 
-    id:Date.now(),
+    id:createUniqueId(),
 
     name:name,
 
@@ -2127,10 +2233,15 @@ function addNewProduct(){
 
     category:category
 
-  });
+  };
 
 
-  saveData();
+  products.push(
+    newProduct
+  );
+
+
+  saveAll();
 
 
   document.getElementById(
@@ -2143,80 +2254,21 @@ function addNewProduct(){
   ).value = "";
 
 
-  document.getElementById(
-    "newProductCategory"
-  ).value = "";
-
-
   renderProducts();
 
 }
 
 
-/* =========================
-   ORÇAMENTO
-========================= */
+/* =====================================================
+   HISTÓRICO
+===================================================== */
 
-function saveBudget(){
-
-  const value =
-    Number(
-      document.getElementById(
-        "budgetInput"
-      ).value
-    );
-
+function finalizePurchase(){
 
   if(
-    !Number.isFinite(value) ||
-    value<0
+    shoppingList.length === 0
   ){
-
     return;
-
-  }
-
-
-  budget = value;
-
-
-  saveData();
-
-  renderSummary();
-
-}
-
-
-function clearBudget(){
-
-  budget = 0;
-
-
-  document.getElementById(
-    "budgetInput"
-  ).value = "";
-
-
-  saveData();
-
-  renderSummary();
-
-}
-
-
-/* =========================
-   WHATSAPP
-========================= */
-
-function sendToWhatsApp(){
-
-  if(
-    !Array.isArray(shoppingList) ||
-    shoppingList.length===0
-  ){
-
-    return;
-
   }
 
 
@@ -2224,201 +2276,33 @@ function sendToWhatsApp(){
     getTotal();
 
 
-  const date =
-    new Date().toLocaleDateString(
-      "pt-BR"
-    );
+  history.unshift({
 
+    id:createUniqueId(),
 
-  let message = "";
+    date:new Date().toISOString(),
 
+    total:total,
 
-  message +=
-    "🛒 *MEU MERCADO*\n";
+    items:JSON.parse(
+      JSON.stringify(
+        shoppingList
+      )
+    )
 
-  message +=
-    "━━━━━━━━━━━━━━━━━━\n";
-
-  message +=
-    "📋 *LISTA DE COMPRAS*\n";
-
-  message +=
-    "📅 " + date + "\n";
-
-  message +=
-    "━━━━━━━━━━━━━━━━━━\n\n";
-
-
-  shoppingList.forEach(
-    function(item,index){
-
-      const subtotal =
-        Number(item.price) *
-        Number(item.quantity);
-
-
-      message +=
-        "*" +
-        (index+1) +
-        ". " +
-        item.name +
-        "*\n";
-
-
-      message +=
-        "Quantidade: " +
-        item.quantity +
-        "\n";
-
-
-      message +=
-        "Preço: " +
-        money(item.price) +
-        "\n";
-
-
-      message +=
-        "Subtotal: " +
-        money(subtotal) +
-        "\n\n";
-
-    }
-  );
-
-
-  message +=
-    "━━━━━━━━━━━━━━━━━━\n";
-
-
-  message +=
-    "💰 *RESUMO DA COMPRA*\n";
-
-
-  message +=
-    "🛍️ Total: *" +
-    money(total) +
-    "*\n";
-
-
-  if(budget>0){
-
-    message +=
-      "💳 Orçamento: *" +
-      money(budget) +
-      "*\n";
-
-
-    const remaining =
-      budget-total;
-
-
-    if(remaining>=0){
-
-      message +=
-        "✅ Restante: *" +
-        money(remaining) +
-        "*\n";
-
-    }else{
-
-      message +=
-        "⚠️ Ultrapassou: *" +
-        money(Math.abs(remaining)) +
-        "*\n";
-
-    }
-
-  }
-
-
-  message +=
-    "━━━━━━━━━━━━━━━━━━\n";
-
-
-  message +=
-    "🛒 *Meu Mercado*";
-
-
-  const url =
-    "https://wa.me/?text=" +
-    encodeURIComponent(message);
-
-
-  window.open(
-    url,
-    "_blank"
-  );
-
-}
-
-
-/* =========================
-   FINALIZAR COMPRA
-========================= */
-
-function finishPurchase(){
-
-  if(
-    !Array.isArray(shoppingList) ||
-    shoppingList.length===0
-  ){
-
-    return;
-
-  }
-
-
-  const purchase = {
-
-    id:Date.now(),
-
-    date:new Date()
-      .toLocaleString("pt-BR"),
-
-    total:getTotal(),
-
-    budget:budget,
-
-    items:
-      shoppingList.map(function(item){
-
-        return {
-
-          id:item.id,
-
-          name:item.name,
-
-          price:Number(item.price),
-
-          category:item.category,
-
-          quantity:Number(item.quantity)
-
-        };
-
-      })
-
-  };
-
-
-  history.unshift(purchase);
+  });
 
 
   shoppingList = [];
 
 
-  saveData();
+  saveAll();
 
   renderList();
-
   renderHistory();
 
 }
 
-
-/* =========================
-   HISTÓRICO
-========================= */
 
 function renderHistory(){
 
@@ -2428,45 +2312,53 @@ function renderHistory(){
     );
 
 
-  if(history.length===0){
+  if(history.length === 0){
 
     container.innerHTML = `
-
-      <div class="card">
-
-        <div class="list-empty">
-
-          Nenhuma compra finalizada ainda.
-
-        </div>
-
+      <div class="empty">
+        🕐 Nenhuma compra finalizada ainda.
       </div>
-
     `;
 
     return;
-
   }
 
 
   container.innerHTML =
     history.map(
-      function(purchase,index){
+      (purchase,index) => {
+
+        const date =
+          new Date(
+            purchase.date
+          ).toLocaleString(
+            "pt-BR"
+          );
+
+
+        const count =
+          purchase.items.reduce(
+            (sum,item) =>
+              sum +
+              Number(item.quantity),
+            0
+          );
+
 
         return `
 
-          <div class="history-item">
+          <div class="history-card">
 
-            <div class="item-top">
+            <div class="history-top">
 
               <div>
 
-                <div class="item-name">
-                  Compra #${history.length-index}
+                <div class="history-date">
+                  ${date}
                 </div>
 
-                <div class="history-date">
-                  ${escapeHTML(purchase.date)}
+                <div class="history-info">
+                  ${count} produto(s)
                 </div>
 
               </div>
@@ -2479,29 +2371,10 @@ function renderHistory(){
             </div>
 
 
-            <div
-              style="
-                margin-top:8px;
-                color:var(--muted);
-              "
-            >
-
-              ${purchase.items.length}
-
-              ${
-                purchase.items.length===1
-                ? "produto"
-                : "produtos"
-              }
-
-            </div>
-
-
             <div class="history-actions">
 
               <button
-                class="secondary-btn"
-                style="width:100%;"
+                class="secondary-btn full-btn"
                 onclick="viewHistory(${index})"
               >
                 Ver minha lista
@@ -2526,199 +2399,119 @@ function viewHistory(index){
 
 
   if(!purchase){
-
     return;
-
   }
 
 
-  const container =
-    document.getElementById(
-      "historyDetails"
+  const date =
+    new Date(
+      purchase.date
+    ).toLocaleString(
+      "pt-BR"
     );
 
 
-  let html = "";
+  document.getElementById(
+    "historyDetails"
+  ).innerHTML = `
+
+    <div class="history-date">
+      ${date}
+    </div>
 
 
-  html += `
+    <div class="detail-list">
+
+      ${
+        purchase.items.map(item => {
+
+          const subtotal =
+            Number(item.price) *
+            Number(item.quantity);
+
+
+          return `
+
+            <div class="detail-item">
+
+              <strong>
+                ${escapeHTML(item.name)}
+              </strong>
+
+              <div class="detail-sub">
+                ${item.quantity}x ·
+                ${money(item.price)} cada ·
+                Subtotal:
+                ${money(subtotal)}
+              </div>
+
+            </div>
+
+          `;
+
+        }).join("")
+      }
+
+    </div>
+
 
     <div
       style="
-        color:var(--muted);
-        margin-bottom:12px;
+        margin-top:15px;
+        font-weight:800;
+        font-size:1.1rem;
       "
     >
-      ${escapeHTML(purchase.date)}
+      💰 Total:
+      ${money(purchase.total)}
     </div>
 
   `;
 
 
-  purchase.items.forEach(
-    function(item){
-
-      const subtotal =
-        Number(item.price) *
-        Number(item.quantity);
-
-
-      html += `
-
-        <div class="purchase-detail">
-
-          <div class="purchase-detail-row">
-
-            <strong>
-              ${escapeHTML(item.name)}
-            </strong>
-
-            <strong>
-              ${money(subtotal)}
-            </strong>
-
-          </div>
-
-
-          <div
-            style="
-              color:var(--muted);
-              font-size:.85rem;
-              margin-top:5px;
-            "
-          >
-
-            ${item.quantity}
-            ×
-            ${money(item.price)}
-
-          </div>
-
-        </div>
-
-      `;
-
-    }
-  );
-
-
-  html += `
-
-    <div class="purchase-total">
-
-      <div class="purchase-detail-row">
-
-        <span>
-          Total
-        </span>
-
-        <span>
-          ${money(purchase.total)}
-        </span>
-
-      </div>
-
-    </div>
-
-  `;
-
-
-  if(purchase.budget>0){
-
-    const difference =
-      purchase.budget -
-      purchase.total;
-
-
-    html += `
-
-      <div
-        style="
-          margin-top:10px;
-          color:var(--muted);
-        "
-      >
-
-        Orçamento:
-        ${money(purchase.budget)}
-
-      </div>
-
-    `;
-
-
-    if(difference>=0){
-
-      html += `
-
-        <div
-          style="
-            margin-top:5px;
-            color:var(--primary);
-            font-weight:700;
-          "
-        >
-
-          Restante:
-          ${money(difference)}
-
-        </div>
-
-      `;
-
-    }else{
-
-      html += `
-
-        <div
-          style="
-            margin-top:5px;
-            color:var(--danger);
-            font-weight:700;
-          "
-        >
-
-          Ultrapassou:
-          ${money(Math.abs(difference))}
-
-        </div>
-
-      `;
-
-    }
-
-  }
-
-
-  container.innerHTML = html;
-
-
-  document.getElementById(
-    "historyModal"
-  ).classList.add("show");
+  document
+    .getElementById(
+      "historyModal"
+    )
+    .classList.add("show");
 
 }
 
 
-/* =========================
-   LIMPAR HISTÓRICO
-========================= */
+function closeHistoryModal(){
 
-function openClearHistory(){
+  document
+    .getElementById(
+      "historyModal"
+    )
+    .classList.remove("show");
 
-  if(
-    !Array.isArray(history) ||
-    history.length===0
-  ){
+}
 
+
+function confirmClearHistory(){
+
+  if(history.length === 0){
     return;
-
   }
 
 
-  document.getElementById(
-    "clearHistoryModal"
-  ).classList.add("show");
+  document
+    .getElementById(
+      "confirmHistoryModal"
+    )
+    .classList.add("show");
+
+}
+
+
+function closeConfirmHistory(){
+
+  document
+    .getElementById(
+      "confirmHistoryModal"
+    )
+    .classList.remove("show");
 
 }
 
@@ -2728,146 +2521,170 @@ function clearHistory(){
   history = [];
 
 
-  saveData();
-
-
-  closeModal(
-    "clearHistoryModal"
+  localStorage.setItem(
+    "meuMercadoHistory",
+    JSON.stringify([])
   );
 
+
+  closeConfirmHistory();
 
   renderHistory();
 
 }
 
 
-/* =========================
-   TEMA
-========================= */
+/* =====================================================
+   WHATSAPP
+===================================================== */
 
-function toggleDark(){
+function sendWhatsApp(){
+
+  if(
+    shoppingList.length === 0
+  ){
+    return;
+  }
+
+
+  const total =
+    getTotal();
+
+
+  let message =
+`🛒 MEU MERCADO
+
+📋 MINHA LISTA
+
+`;
+
+
+  shoppingList.forEach(item => {
+
+    const subtotal =
+      Number(item.price) *
+      Number(item.quantity);
+
+
+    message +=
+`🛍️ ${item.name}
+🔢 Quantidade: ${item.quantity}x
+💵 Preço: ${money(item.price)}
+➡️ Subtotal: ${money(subtotal)}
+
+`;
+
+  });
+
+
+  message +=
+`━━━━━━━━━━━━━━
+💰 TOTAL: ${money(total)}
+`;
+
+
+  if(budget > 0){
+
+    const remaining =
+      budget - total;
+
+
+    message +=
+`\n🎯 ORÇAMENTO: ${money(budget)}
+`;
+
+
+    if(remaining >= 0){
+
+      message +=
+`💚 RESTANTE: ${money(remaining)}
+`;
+
+    }else{
+
+      message +=
+`🔴 ULTRAPASSOU: ${money(
+  Math.abs(remaining)
+)}
+`;
+
+    }
+
+  }
+
+
+  message +=
+`\n🛒 Boa compra!`;
+
+
+  const url =
+    "https://wa.me/?text=" +
+    encodeURIComponent(
+      message
+    );
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =====================================================
+   TEMA
+===================================================== */
+
+function toggleTheme(){
 
   document.body.classList.toggle(
     "dark"
   );
 
 
-  localStorage.setItem(
-    "meuMercadoDark",
-    document.body.classList.contains("dark")
-      ? "true"
-      : "false"
-  );
-
-}
-
-
-/* =========================
-   ACESSIBILIDADE
-========================= */
-
-function openAccessibility(){
-
-  document.getElementById(
-    "accessModal"
-  ).classList.add("show");
-
-}
-
-
-function setFontSize(size){
-
-  document.body.classList.remove(
-    "font-small",
-    "font-normal",
-    "font-large",
-    "font-xlarge"
-  );
-
-
-  document.body.classList.add(
-    "font-" + size
-  );
-
-
-  localStorage.setItem(
-    "meuMercadoFontSize",
-    size
-  );
-
-
-  document.querySelectorAll(
-    ".access-option"
-  ).forEach(
-    function(button){
-
-      button.classList.toggle(
-        "active",
-        button.dataset.size===size
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================
-   MODAIS
-========================= */
-
-function closeModal(id){
-
-  const modal =
-    document.getElementById(id);
-
-
-  if(modal){
-
-    modal.classList.remove("show");
-
-  }
-
-}
-
-
-document.querySelectorAll(
-  ".modal-bg"
-).forEach(
-  function(modal){
-
-    modal.addEventListener(
-      "click",
-      function(event){
-
-        if(event.target===modal){
-
-          modal.classList.remove(
-            "show"
-          );
-
-        }
-
-      }
+  const dark =
+    document.body.classList.contains(
+      "dark"
     );
 
-  }
-);
+
+  localStorage.setItem(
+    "meuMercadoDark",
+    dark ? "1" : "0"
+  );
 
 
-/* =========================
-   INICIALIZAÇÃO
-========================= */
+  updateThemeButton();
 
-function initialize(){
+}
+
+
+function updateThemeButton(){
+
+  const dark =
+    document.body.classList.contains(
+      "dark"
+    );
+
+
+  document.getElementById(
+    "themeBtn"
+  ).textContent =
+    dark ? "☀" : "☾";
+
+}
+
+
+function loadTheme(){
 
   const dark =
     localStorage.getItem(
       "meuMercadoDark"
-    );
+    ) === "1";
 
 
-  if(dark==="true"){
+  if(dark){
 
     document.body.classList.add(
       "dark"
@@ -2876,35 +2693,173 @@ function initialize(){
   }
 
 
-  const savedFont =
+  updateThemeButton();
+
+}
+
+
+/* =====================================================
+   TAMANHO DA FONTE
+===================================================== */
+
+function openFontModal(){
+
+  document
+    .getElementById(
+      "fontModal"
+    )
+    .classList.add("show");
+
+}
+
+
+function closeFontModal(){
+
+  document
+    .getElementById(
+      "fontModal"
+    )
+    .classList.remove("show");
+
+}
+
+
+function setFontSize(size){
+
+  let scale = 1;
+
+
+  if(size === "small"){
+    scale = .9;
+  }
+
+
+  if(size === "normal"){
+    scale = 1;
+  }
+
+
+  if(size === "large"){
+    scale = 1.12;
+  }
+
+
+  if(size === "xlarge"){
+    scale = 1.25;
+  }
+
+
+  document.documentElement.style
+    .setProperty(
+      "--fontScale",
+      scale
+    );
+
+
+  localStorage.setItem(
+    "meuMercadoFontSize",
+    size
+  );
+
+}
+
+
+function loadFontSize(){
+
+  const size =
     localStorage.getItem(
       "meuMercadoFontSize"
     ) || "normal";
 
 
-  setFontSize(savedFont);
-
-
-  if(budget>0){
-
-    document.getElementById(
-      "budgetInput"
-    ).value =
-      budget;
-
-  }
-
-
-  renderList();
-
-  renderProducts();
-
-  renderHistory();
+  setFontSize(size);
 
 }
 
 
-initialize();
+/* =====================================================
+   FECHAR MODAIS CLICANDO FORA
+===================================================== */
+
+document
+  .getElementById("priceModal")
+  .addEventListener(
+    "click",
+    function(e){
+
+      if(e.target === this){
+
+        closePriceModal();
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("fontModal")
+  .addEventListener(
+    "click",
+    function(e){
+
+      if(e.target === this){
+
+        closeFontModal();
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("historyModal")
+  .addEventListener(
+    "click",
+    function(e){
+
+      if(e.target === this){
+
+        closeHistoryModal();
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("confirmHistoryModal")
+  .addEventListener(
+    "click",
+    function(e){
+
+      if(e.target === this){
+
+        closeConfirmHistory();
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+normalizeProductIds();
+
+loadTheme();
+
+loadFontSize();
+
+renderList();
+
+renderProducts();
+
+renderHistory();
 
 </script>
 
